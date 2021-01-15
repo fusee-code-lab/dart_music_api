@@ -11,3 +11,10 @@ build/
 
 # Directory created by dartdoc
 doc/api/
+
+# passable ide
+.idea
+.vscode
+
+# for macos
+.DS_Store

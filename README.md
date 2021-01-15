@@ -1,22 +1,7 @@
-A library for Dart developers.
+# 使用 Dart 调用音乐平台 Api
 
-Created from templates made available by Stagehand under a BSD-style
-[license](https://github.com/dart-lang/stagehand/blob/master/LICENSE).
+> ⚠️：开发中。。。
 
-## Usage
-
-A simple usage example:
-
-```dart
-import 'package:dart_music_api/dart_music_api.dart';
-
-main() {
-  var awesome = new Awesome();
-}
-```
-
-## Features and bugs
-
-Please file feature requests and bugs at the [issue tracker][tracker].
-
-[tracker]: http://example.com/issues/replaceme
+## 支持的平台
+- [网易云音乐](https://music.163.com)
+- [qq音乐](https://y.qq.com/)
