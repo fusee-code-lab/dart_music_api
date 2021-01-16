@@ -1,0 +1,4 @@
+enum Platforms {
+  netEasy,
+  qq
+}
