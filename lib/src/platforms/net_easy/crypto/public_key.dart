@@ -1,0 +1,7 @@
+const publicKey =
+    '-----BEGIN PUBLIC KEY-----\n'
+    'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDgtQn2JZ34ZC28NWYpAUd'
+    '98iZ37BUrX/aKzmFbt7clFSs6sXqHauqKWqdtLkF2KexO40H1YTX8z2lSgB'
+    'BOAxLsvaklV8k4cBFK9snQXE9/DDaFt6Rr7iVZMldczhC0JNgTz+SHXT6CB'
+    'HuX3e9SdB1Ua44oncaTWz7OBGLbCiK45wIDAQAB\n'
+    '-----END PUBLIC KEY-----';
