@@ -3,6 +3,8 @@
 > ⚠️：开发中。。。
 
 ## 特性
+- 类型安全
+- 空安全 ([Dart Sound null safety](https://dart.dev/null-safety))
 - 方便地在 [flutter](https://flutter.dev/) 中使用
 - 跨平台使用 (Windows, Linux, macOS, Web, iOS, Android)
 
