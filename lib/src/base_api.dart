@@ -6,7 +6,6 @@ import 'package:dart_music_api/src/models/song.dart';
 import 'package:dart_music_api/src/models/song_detail.dart';
 import 'package:dart_music_api/src/models/song_lyrics.dart';
 import 'package:dart_music_api/src/models/song_uri.dart';
-import 'package:dart_music_api/src/platforms.dart';
 import 'package:dart_music_api/src/result_cursor.dart';
 
 class CombinedSearchResult {
@@ -24,8 +23,6 @@ class CombinedSearchResult {
 }
 
 abstract class MusicApi {
-  abstract final Platforms platform;
-
   MusicApi();
 
   // search
@@ -38,7 +35,7 @@ abstract class MusicApi {
   // song
   Future<SongDetail> songDetail(String id);
   Future<List<SongDetail>> songDetails(List<String> ids);
-  Future<SongUri> songUri(String id, { BigInt bitRate });
+  Future<SongUri> songUri(String id, { BigInt? bitRate });
   Future<SongLyrics> songLyrics(String id);
 
   // album
