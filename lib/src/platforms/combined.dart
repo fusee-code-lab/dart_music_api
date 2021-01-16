@@ -9,7 +9,7 @@ import 'package:dart_music_api/src/models/song_lyrics.dart';
 import 'package:dart_music_api/src/models/song_uri.dart';
 import 'package:dart_music_api/src/result_cursor.dart';
 import 'package:dart_music_api/src/music_platform.dart';
-import 'package:dart_music_api/src/utils.dart';
+import 'package:dart_music_api/src/utils/extensions.dart';
 
 class CombinedApi implements MusicApi {
   List<MusicPlatform> _platforms = [];

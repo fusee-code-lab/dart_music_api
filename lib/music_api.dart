@@ -17,4 +17,4 @@ export 'package:dart_music_api/src/models/song_quality.dart';
 export 'package:dart_music_api/src/models/song_uri.dart';
 export 'package:dart_music_api/src/models/tag.dart';
 export 'package:dart_music_api/src/result_cursor.dart';
-export 'package:dart_music_api/src/utils.dart';
+export 'package:dart_music_api/src/utils/extensions.dart';

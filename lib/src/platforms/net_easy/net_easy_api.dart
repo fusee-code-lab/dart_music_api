@@ -7,9 +7,16 @@ import 'package:dart_music_api/src/models/song.dart';
 import 'package:dart_music_api/src/models/song_detail.dart';
 import 'package:dart_music_api/src/models/song_lyrics.dart';
 import 'package:dart_music_api/src/models/song_uri.dart';
+import 'package:dart_music_api/src/platforms/net_easy/crypto/crypto_platform.dart';
+import 'package:dart_music_api/src/platforms/net_easy/request/net_easy_request.dart';
 import 'package:dart_music_api/src/result_cursor.dart';
+import 'package:dio/dio.dart';
 
 class NetEasyApi implements MusicApi {
+
+  late final Dio _webDio = NetEasyCrypto.web.request;
+  late final Dio _desktopDio = NetEasyCrypto.desktop.request;
+  late final Dio _linuxDio = NetEasyCrypto.linux.request;
 
   @override
   Future<AlbumDetail> albumDetail(String id) {

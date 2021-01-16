@@ -1,4 +1,4 @@
-import 'package:dart_music_api/src/utils.dart';
+import 'package:dart_music_api/src/utils/extensions.dart';
 
 typedef FetchResultFunc<SearchOption, Result> = Future<List<Result>?>
 Function(SearchOption option, {required int limit, required int offset});

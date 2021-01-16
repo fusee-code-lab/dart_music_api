@@ -7,10 +7,10 @@ import 'package:dart_music_api/src/platforms/net_easy/crypto/public_key.dart';
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
 
-extension Crypto on NetEasyCrypto {
-  Map encryption(NetEasyCrypto crypto,
+extension NetEasyEncryption on NetEasyCrypto {
+  Map encrypt(
       { required String requestUrl, required Object requestData }) {
-    switch (crypto) {
+    switch (this) {
       case NetEasyCrypto.desktop:
         final jsonStr = json.encode(requestData);
         final message = 'nobody${requestUrl}use${jsonStr}md5forencrypt';

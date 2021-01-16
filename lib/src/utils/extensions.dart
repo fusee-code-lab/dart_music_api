@@ -17,3 +17,4 @@ extension CompactMap<E> on List<E?> {
     return where((element) => element != null).map((e) => f(e!)).toList();
   }
 }
+

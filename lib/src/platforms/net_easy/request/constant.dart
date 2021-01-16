@@ -1,0 +1,1 @@
+const netEasyBaseUrl = 'https://music.163.com';
