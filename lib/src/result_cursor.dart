@@ -3,6 +3,7 @@ import 'package:dart_music_api/src/utils.dart';
 typedef FetchResultFunc<SearchOption, Result> = Future<List<Result>?>
 Function(SearchOption option, {required int limit, required int offset});
 
+// TODO 支持完善的分页操作
 class ResultCursor<SearchOption, Result> {
   static const int defaultLimit = 20;
 
@@ -43,7 +44,7 @@ class ResultCursor<SearchOption, Result> {
     };
   }
 
-  ResultCursor limit(int limit) {
+  ResultCursor<SearchOption, Result> limit(int limit) {
     _limit = limit;
     return this;
   }

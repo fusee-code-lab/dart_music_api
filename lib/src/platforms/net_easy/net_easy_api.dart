@@ -1,5 +1,5 @@
 import 'package:dart_music_api/src/base_api.dart';
-import 'package:dart_music_api/src/models/Artist.dart';
+import 'package:dart_music_api/src/models/artist.dart';
 import 'package:dart_music_api/src/models/album.dart';
 import 'package:dart_music_api/src/models/album_detail.dart';
 import 'package:dart_music_api/src/models/play_list.dart';

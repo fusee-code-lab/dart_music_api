@@ -1,5 +1,5 @@
 import 'package:dart_music_api/src/base_api.dart';
-import 'package:dart_music_api/src/models/Artist.dart';
+import 'package:dart_music_api/src/models/artist.dart';
 import 'package:dart_music_api/src/models/album.dart';
 import 'package:dart_music_api/src/models/album_detail.dart';
 import 'package:dart_music_api/src/models/play_list.dart';
@@ -8,13 +8,13 @@ import 'package:dart_music_api/src/models/song_detail.dart';
 import 'package:dart_music_api/src/models/song_lyrics.dart';
 import 'package:dart_music_api/src/models/song_uri.dart';
 import 'package:dart_music_api/src/result_cursor.dart';
-import 'package:dart_music_api/src/platform.dart';
+import 'package:dart_music_api/src/music_platform.dart';
 import 'package:dart_music_api/src/utils.dart';
 
 class CombinedApi implements MusicApi {
-  List<Platform> _platforms = [];
-  List<Platform> get platforms => _platforms;
-  set platforms(List<Platform> platforms) {
+  List<MusicPlatform> _platforms = [];
+  List<MusicPlatform> get platforms => _platforms;
+  set platforms(List<MusicPlatform> platforms) {
     assert(
       _platforms.isUnique,
       'Elements in platforms should not be repeated.',
@@ -27,11 +27,11 @@ class CombinedApi implements MusicApi {
     _platforms = platforms;
   }
 
-  late Platform _curPlatform;
-  Platform get curPlatform {
+  late MusicPlatform _curPlatform;
+  MusicPlatform get curPlatform {
     return _curPlatform;
   }
-  set curPlatform(Platform platform) {
+  set curPlatform(MusicPlatform platform) {
     assert(
       _platforms.contains(platforms),
       "Don't using platform not in platforms in this CombinedApi "
@@ -41,11 +41,11 @@ class CombinedApi implements MusicApi {
   }
 
   CombinedApi();
-  CombinedApi.of(List<Platform> platforms) {
+  CombinedApi.of(List<MusicPlatform> platforms) {
     this.platforms = platforms;
   }
 
-  CombinedApi platform(Platform platform) {
+  CombinedApi platform(MusicPlatform platform) {
     curPlatform = platform;
     return this;
   }

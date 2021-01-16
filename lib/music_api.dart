@@ -1,3 +1,20 @@
 library dart_music_api;
 
-export 'src/api.dart';
+export 'package:dart_music_api/src/music_platform.dart';
+export 'package:dart_music_api/src/base_api.dart';
+export 'package:dart_music_api/src/platforms/net_easy/net_easy_api.dart';
+export 'package:dart_music_api/src/platforms/qq/qq_api.dart';
+export 'package:dart_music_api/src/platforms/combined.dart';
+export 'package:dart_music_api/src/models/album.dart';
+export 'package:dart_music_api/src/models/album_detail.dart';
+export 'package:dart_music_api/src/models/artist.dart';
+export 'package:dart_music_api/src/models/platform_user.dart';
+export 'package:dart_music_api/src/models/play_list.dart';
+export 'package:dart_music_api/src/models/song.dart';
+export 'package:dart_music_api/src/models/song_detail.dart';
+export 'package:dart_music_api/src/models/song_lyrics.dart';
+export 'package:dart_music_api/src/models/song_quality.dart';
+export 'package:dart_music_api/src/models/song_uri.dart';
+export 'package:dart_music_api/src/models/tag.dart';
+export 'package:dart_music_api/src/result_cursor.dart';
+export 'package:dart_music_api/src/utils.dart';
