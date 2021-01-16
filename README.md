@@ -72,3 +72,12 @@ void main() {
 ## 支持的网络音乐平台
 - [网易云音乐](https://music.163.com)
 - [qq音乐](https://y.qq.com/)
+
+## 版权
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+MIT License
+
+Copyright (c) 2021 fusée-code-lab
+
+[LICENSE](/LICENSE) file
