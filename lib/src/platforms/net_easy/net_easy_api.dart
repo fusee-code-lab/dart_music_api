@@ -1,7 +1,6 @@
 import 'package:dart_music_api/src/base_api.dart';
 import 'package:dart_music_api/src/models/artist.dart';
 import 'package:dart_music_api/src/models/album.dart';
-import 'package:dart_music_api/src/models/album_detail.dart';
 import 'package:dart_music_api/src/models/play_list.dart';
 import 'package:dart_music_api/src/models/song.dart';
 import 'package:dart_music_api/src/models/song_detail.dart';
@@ -13,15 +12,15 @@ import 'package:dart_music_api/src/result_cursor.dart';
 import 'package:dio/dio.dart';
 
 class NetEasyApi implements MusicApi {
-
   late final Dio _webDio = NetEasyCrypto.web.request;
   late final Dio _desktopDio = NetEasyCrypto.desktop.request;
   late final Dio _linuxDio = NetEasyCrypto.linux.request;
 
   @override
-  Future<AlbumDetail> albumDetail(String id) {
-    // TODO: implement albumDetail
-    throw UnimplementedError();
+  Future albumDetail(String id) async {
+    final result =
+        await _webDio.post('https://music.163.com/weapi/v1/album/$id');
+    print(result.data);
   }
 
   @override
@@ -101,5 +100,4 @@ class NetEasyApi implements MusicApi {
     // TODO: implement songUri
     throw UnimplementedError();
   }
-
 }

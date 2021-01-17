@@ -19,23 +19,24 @@ Dio buildNetEasyEasyWebApiRequest() {
 
   dio.interceptors.add(InterceptorsWrapper(onRequest: (RequestOptions options) {
     final header = buildHeader(options: options, ua: UserAgentType.pc);
-    final String cookies = header[HttpHeaders.cookieHeader];
+    final String cookies = header[HttpHeaders.cookieHeader] ?? '';
+    final Map<String, dynamic> data = options.data ?? {};
 
     final csrfToken = cookies
         .split('; ')
         .firstWhere((c) => c.split('=').last == '__csrf', orElse: () => '')
         .split('=').last;
-    options.data['csrf_token'] = csrfToken;
+    data['csrf_token'] = csrfToken;
 
     final requestData = netEasyCrypto.encrypt(
       requestUrl: options.uri.toString(),
-      requestData: options.data,
+      requestData: data,
     );
     final newPath = options.uri.path.replaceAll(RegExp(r'\w*api'), netEasyCrypto.prefix);
 
     return options
       ..headers = header
-      ..data = requestData
+      ..queryParameters = requestData
       ..path = newPath;
   }));
 

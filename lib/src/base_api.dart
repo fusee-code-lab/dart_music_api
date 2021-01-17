@@ -1,6 +1,5 @@
 import 'package:dart_music_api/src/models/artist.dart';
 import 'package:dart_music_api/src/models/album.dart';
-import 'package:dart_music_api/src/models/album_detail.dart';
 import 'package:dart_music_api/src/models/play_list.dart';
 import 'package:dart_music_api/src/models/song.dart';
 import 'package:dart_music_api/src/models/song_detail.dart';
@@ -39,7 +38,7 @@ abstract class MusicApi {
   Future<SongLyrics> songLyrics(String id);
 
   // album
-  Future<AlbumDetail> albumDetail(String id);
+  Future albumDetail(String id);
 
   // play list
   Future<PlayList> playListDetail(String id);

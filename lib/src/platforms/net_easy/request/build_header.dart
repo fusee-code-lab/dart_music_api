@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 
 Map<String, dynamic> buildHeader(
     {required RequestOptions options, required UserAgentType ua}) {
-  final headers = options.headers;
+  final headers = options.headers ?? {};
   headers[HttpHeaders.userAgentHeader] = chooseUserAgent(ua);
   if (options.method.toUpperCase() == RequestMethod.POST.toString()) {
     headers[HttpHeaders.contentTypeHeader] =

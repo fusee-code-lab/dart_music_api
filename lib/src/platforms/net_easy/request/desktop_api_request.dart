@@ -25,7 +25,7 @@ Dio buildNetEasyEasyDesktopApiRequest() {
     
     return options
       ..headers = header
-      ..data = requestData
+      ..queryParameters = requestData
       ..path = newPath;
   }));
 

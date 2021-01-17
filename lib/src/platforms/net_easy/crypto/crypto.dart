@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'dart:typed_data';
 import 'package:dart_music_api/src/platforms/net_easy/crypto/base62.dart';
 import 'package:dart_music_api/src/platforms/net_easy/crypto/crypto_platform.dart';
@@ -8,7 +9,7 @@ import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
 
 extension NetEasyEncryption on NetEasyCrypto {
-  Map encrypt(
+  Map<String, dynamic> encrypt(
       { required String requestUrl, required Object requestData }) {
     switch (this) {
       case NetEasyCrypto.desktop:
@@ -27,17 +28,19 @@ extension NetEasyEncryption on NetEasyCrypto {
 
       case NetEasyCrypto.web:
         final jsonStr = json.encode(requestData);
-        final secretKeyRaw = Uint8List.fromList(
+        final base62SecretKeyRaw = Uint8List.fromList(
             List.filled(16, 0)
-                .map((e) => base62sources[e % 62].codeUnitAt(e)).toList()
+                .map((e) => Random().nextInt(1062))
+                .map((e) => base62sources[e % 62].codeUnitAt(0)).toList()
         );
-        final secretKey = Key(secretKeyRaw);
+        final secretKey = Key(base62SecretKeyRaw);
 
         final encryptedParams = aesEncrypt(
           text: aesEncrypt(
               text: jsonStr,
               mode: AESMode.cbc,
               key: apiKey,
+              iv: IV.fromUtf8('0102030405060708'),
           ).base64,
           mode: AESMode.cbc,
           key: secretKey,
@@ -45,7 +48,7 @@ extension NetEasyEncryption on NetEasyCrypto {
         ).base64;
 
         final encryptedSecretKey = rsaEncrypt(
-            text: secretKeyRaw.reversed.join(),
+            text: String.fromCharCodes(base62SecretKeyRaw.reversed),
             key: publicKey
         ).base16;
 

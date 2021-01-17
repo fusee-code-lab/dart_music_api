@@ -1,7 +1,6 @@
 import 'package:dart_music_api/src/base_api.dart';
 import 'package:dart_music_api/src/models/artist.dart';
 import 'package:dart_music_api/src/models/album.dart';
-import 'package:dart_music_api/src/models/album_detail.dart';
 import 'package:dart_music_api/src/models/play_list.dart';
 import 'package:dart_music_api/src/models/song.dart';
 import 'package:dart_music_api/src/models/song_detail.dart';
@@ -59,7 +58,7 @@ class CombinedApi implements MusicApi {
   MusicApi get _curApi => curPlatform.api;
 
   @override
-  Future<AlbumDetail> albumDetail(String id) => _curApi.albumDetail(id);
+  Future albumDetail(String id) => _curApi.albumDetail(id);
 
   @override
   Future<Artist> artistDetail(String id) => _curApi.artistDetail(id);
