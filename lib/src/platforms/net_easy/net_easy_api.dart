@@ -272,10 +272,11 @@ class NetEasyApi implements MusicApi {
   @override
   CombinedSearchResult combineSearch(String str) {
     return CombinedSearchResult(
-        songs: searchSongs(str),
-        playlists: searchPlayLists(str),
-        artists: searchArtistes(str),
-        albums: searchAlbums(str));
+      songs: searchSongs(str),
+      playlists: searchPlayLists(str),
+      artists: searchArtistes(str),
+      albums: searchAlbums(str),
+    );
   }
 
   @override
@@ -406,6 +407,7 @@ class NetEasyApi implements MusicApi {
               }
               return null;
             }
+
             // TODO: why e['alias']?.let cause NoSuchMethodError
             final alias = extractAlias(e['alias']) ?? extractAlias(e['alia']);
 

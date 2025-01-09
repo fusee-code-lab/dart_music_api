@@ -30,6 +30,9 @@
     - [x] 歌手音乐 (支持分页)
     
 ## 使用
+
+> 使用方式参考 [./example/dart_music_api.dart](./example/dart_music_api.dart)
+
 ### 基础使用
 所有平台的 Api 都基于抽象类 `MusicApi`, 因此你可以在[这里](./lib/src/base_api.dart)查看所有支持的 Api 方法的签名。
 

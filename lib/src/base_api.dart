@@ -11,18 +11,19 @@ class CombinedSearchResult {
   final ResultCursor<String, ListResponsePack<Artist>> artists;
   final ResultCursor<String, ListResponsePack<Album>> albums;
 
-  CombinedSearchResult(
-      {required this.songs,
-      required this.playlists,
-      required this.artists,
-      required this.albums});
+  CombinedSearchResult({
+    required this.songs,
+    required this.playlists,
+    required this.artists,
+    required this.albums,
+  });
 }
 
 abstract class MusicApi {
   MusicApi();
 
   // search
-  
+
   /// 搜索单曲
   /// Notes: 网易云的单曲搜索 api 可能不包含歌手头像
   ResultCursor<String, ListResponsePack<Song>> searchSongs(String str);

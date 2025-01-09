@@ -1,12 +1,19 @@
 import 'package:dart_music_api/music_api.dart';
 
 void main() async {
-  // search playlist
-
-  final searchCursor = await MusicPlatform.netEasy.api.searchPlayLists("周兴哲");
+  print('搜索单曲');
+  final searchCursor = await MusicPlatform.netEasy.api.searchSongs("周兴哲");
   await for (var v in searchCursor.limit(5).nextPage().take(1)) {
-    print(v.data.map((e) => e.name).join('\n'));
+    for (final song in v.data) {
+      final artists = song.artists.map((e) => e.name).join(', ');
+      print("${song.id} ${song.name} $artists");
+    }
   }
+  print("====================================");
+
+  print("获取单曲详情");
+  final songDetail = await MusicPlatform.netEasy.api.songDetails("2049541052");
+  print(songDetail.data);
 
 
   // final d = await MusicPlatform.netEasy.api.albumDetails('32311');
