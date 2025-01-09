@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:dart_music_api/music_api.dart';
+
+final encoder = new JsonEncoder.withIndent('  ');
 
 void main() async {
   print('搜索单曲');
@@ -13,8 +17,8 @@ void main() async {
 
   print("获取单曲详情");
   final songDetail = await MusicPlatform.netEasy.api.songDetails("2049541052");
-  print(songDetail.data);
-
+  print(encoder.convert(songDetail.data?.toJson()));
+  print("====================================");
 
   // final d = await MusicPlatform.netEasy.api.albumDetails('32311');
   // print(d.data?.album.name);

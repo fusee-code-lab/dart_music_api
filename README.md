@@ -47,7 +47,7 @@ dart pub run build_runner watch
     
 ## 使用
 
-> 使用方式参考 [./example/dart_music_api.dart](./example/dart_music_api.dart)
+> 使用方式参考 [./example/dart_music_api.dart](./example/dart_music_api.dart), 执行 `dart run` 命令来运行 example
 
 ### 基础使用
 所有平台的 Api 都基于抽象类 `MusicApi`, 因此你可以在[这里](./lib/src/base_api.dart)查看所有支持的 Api 方法的签名。

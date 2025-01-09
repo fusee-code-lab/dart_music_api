@@ -35,9 +35,10 @@ Dio buildNetEasyEasyWebApiRequest() {
         requestUrl: options.uri.toString(),
         requestData: data,
       );
-      final newPath =
-          options.uri.path.replaceAll(RegExp(r'\w*api'), netEasyCrypto.prefix);
-      print("new path: $newPath");
+      final newPath = options.uri.path.replaceAll(
+        RegExp(r'\w*api'),
+        netEasyCrypto.prefix,
+      );
 
       final newOptions = options
         ..headers = header

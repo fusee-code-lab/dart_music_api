@@ -233,7 +233,6 @@ class NetEasyApi implements MusicApi {
           'limit': 15,
         };
         final response = await _webDio.post('/api/v1/artist/songs', data: data);
-        print(response.data);
 
         if (response.data is Map<String, dynamic>) {
           final songsData =
