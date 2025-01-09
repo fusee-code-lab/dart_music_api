@@ -55,7 +55,20 @@ class ResultCursor<SearchOption, Result extends ResultCursorResult<Result>> {
     return this;
   }
 
-  Stream<Result> nextPage() async* {
+  Future<Result?> nextPage() async {
+    final results = await _fetchResultFunc(
+      _option,
+      limit: _limit,
+      offset: _offset,
+    );
+    if (results == null) {
+      return null;
+    }
+    _offset += _limit;
+    return results;
+  }
+
+  Stream<Result> allPages() async* {
     final results = await _fetchResultFunc(
       _option,
       limit: _limit,

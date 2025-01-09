@@ -7,7 +7,7 @@ final encoder = JsonEncoder.withIndent('  ');
 void main() async {
   print('搜索单曲');
   final searchCursor = MusicPlatform.netEasy.api.searchSongs("周兴哲");
-  await for (var v in searchCursor.limit(5).nextPage().take(1)) {
+  await for (var v in searchCursor.limit(5).allPages().take(1)) {
     for (final song in v.data) {
       final artists = song.artists.map((e) => e.name).join(', ');
       print("${song.id} ${song.name} $artists");
@@ -17,7 +17,7 @@ void main() async {
 
   print("搜索歌单");
   final searchCursor2 = MusicPlatform.netEasy.api.searchPlayLists("周兴哲");
-  await for (var v in searchCursor2.limit(5).nextPage().take(1)) {
+  await for (var v in searchCursor2.limit(5).allPages().take(1)) {
     for (final playList in v.data) {
       print("${playList.id} ${playList.name}");
     }
@@ -26,7 +26,7 @@ void main() async {
 
   print("搜索歌手");
   final searchCursor3 = MusicPlatform.netEasy.api.searchArtistes("周兴哲");
-  await for (var v in searchCursor3.limit(5).nextPage().take(1)) {
+  await for (var v in searchCursor3.limit(5).allPages().take(1)) {
     for (final artist in v.data) {
       print("${artist.id} ${artist.name}");
     }
@@ -60,7 +60,7 @@ void main() async {
 
   print("获取歌单音乐");
   final playListSongs = MusicPlatform.netEasy.api.playListSongs(playListDetail.data!);
-  await for (var v in playListSongs.limit(5).nextPage().take(1)) {
+  await for (var v in playListSongs.limit(5).allPages().take(1)) {
     for (final song in v.data) {
       final artists = song.artists.map((e) => e.name).join(', ');
       print("${song.id} ${song.name} $artists");
@@ -77,7 +77,7 @@ void main() async {
 
   print("获取歌手音乐");
   final artistSong = MusicPlatform.netEasy.api.artistSongs('980025');
-  await for (var v in artistSong.limit(5).nextPage().take(1)) {
+  await for (var v in artistSong.limit(5).allPages().take(1)) {
     for (final song in v.data) {
       final artists = song.artists.map((e) => e.name).join(', ');
       print("${song.id} ${song.name} $artists");
