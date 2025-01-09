@@ -10,6 +10,7 @@ import 'package:dart_music_api/src/models/song.dart';
 import 'package:dart_music_api/src/models/song_detail.dart';
 import 'package:dart_music_api/src/models/song_lyrics.dart';
 import 'package:dart_music_api/src/result_cursor.dart';
+import 'package:dio/src/dio.dart';
 
 class QQApi implements MusicApi {
   @override
@@ -101,5 +102,10 @@ class QQApi implements MusicApi {
   String simpleSongUrl(String id) {
     // TODO: implement simpleSongUrL
     throw UnimplementedError();
+  }
+
+  @override
+  void configureDio(void Function(Dio dio) configure) {
+    // TODO: implement configureDio
   }
 }

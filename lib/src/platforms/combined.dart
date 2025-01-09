@@ -12,6 +12,7 @@ import 'package:dart_music_api/src/models/song_lyrics.dart';
 import 'package:dart_music_api/src/result_cursor.dart';
 import 'package:dart_music_api/src/music_platform.dart';
 import 'package:dart_music_api/src/utils/extensions.dart';
+import 'package:dio/src/dio.dart';
 
 class CombinedApi implements MusicApi {
   List<MusicPlatform> _platforms = [];
@@ -131,4 +132,9 @@ class CombinedApi implements MusicApi {
 
   @override
   String simpleSongUrl(String id) => _curApi.simpleSongUrl(id);
+
+  @override
+  void configureDio(void Function(Dio dio) configure) {
+    // TODO: implement configureDio
+  }
 }
