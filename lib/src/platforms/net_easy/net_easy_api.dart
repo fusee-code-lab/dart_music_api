@@ -216,6 +216,8 @@ class NetEasyApi implements MusicApi {
           'limit': 15,
         };
         final response = await _webDio.post('/api/v1/artist/songs', data: data);
+        print(response.data);
+
         if (response.data is Map<String, dynamic>) {
           final songsData = List<Map<String, dynamic>>.from(response.data['songs']);
 
@@ -226,7 +228,7 @@ class NetEasyApi implements MusicApi {
             final album = Album(
                 id: albumData['id'].toString(),
                 name: albumData['name'],
-                coverImageUrl: albumData['pic_str']);
+                coverImageUrl: albumData['picUrl']);
             final artists = artistsData
                 .map((e) => Artist(
                     id: e['id'].toString(),
