@@ -18,7 +18,3 @@ doc/api/
 
 # for macos
 .DS_Store
-
-# for build_runner
-*.g.dart
-*.freezed.dart
