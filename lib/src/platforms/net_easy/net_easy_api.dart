@@ -47,6 +47,11 @@ extension on _CloudSearchType {
 class NetEasyApi implements MusicApi {
   late final Dio _webDio = NetEasyCrypto.web.request;
 
+  @override
+  void configureDio(void Function(Dio dio) configure) {
+    configure(_webDio);
+  }
+
   // TODO: how to do with this?
   // late final Dio _desktopDio = NetEasyCrypto.desktop.request;
   // late final Dio _linuxDio = NetEasyCrypto.linux.request;

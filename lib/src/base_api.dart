@@ -2,6 +2,7 @@ import 'package:dart_music_api/music_api.dart';
 import 'package:dart_music_api/src/models/play_list_detail.dart';
 import 'package:dart_music_api/src/response_pack.dart';
 import 'package:dart_music_api/src/models/artist_detail.dart';
+import 'package:dio/dio.dart';
 
 // TODO 增添异常处理
 
@@ -21,6 +22,8 @@ class CombinedSearchResult {
 
 abstract class MusicApi {
   MusicApi();
+
+  void configureDio(void Function(Dio dio) configure);
 
   // search
 
