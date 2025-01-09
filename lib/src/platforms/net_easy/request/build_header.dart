@@ -4,11 +4,13 @@ import 'package:dart_music_api/src/utils/http_header.dart';
 import 'package:dart_music_api/src/utils/http_method.dart';
 import 'package:dio/dio.dart';
 
-Map<String, dynamic> buildHeader(
-    {required RequestOptions options, required UserAgentType ua}) {
-  final headers = options.headers ?? {};
+Map<String, dynamic> buildHeader({
+  required RequestOptions options,
+  required UserAgentType ua,
+}) {
+  final headers = options.headers;
   headers[HttpHeaders.userAgentHeader] = chooseUserAgent(ua);
-  if (options.method.toUpperCase() == RequestMethod.POST.toString()) {
+  if (options.method.toUpperCase() == RequestMethod.post.toString()) {
     headers[HttpHeaders.contentTypeHeader] =
         'application/x-www-form-urlencoded';
   }

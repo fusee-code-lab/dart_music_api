@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:dart_music_api/music_api.dart';
 
-final encoder = new JsonEncoder.withIndent('  ');
+final encoder = JsonEncoder.withIndent('  ');
 
 void main() async {
   print('搜索单曲');
-  final searchCursor = await MusicPlatform.netEasy.api.searchSongs("周兴哲");
+  final searchCursor = MusicPlatform.netEasy.api.searchSongs("周兴哲");
   await for (var v in searchCursor.limit(5).nextPage().take(1)) {
     for (final song in v.data) {
       final artists = song.artists.map((e) => e.name).join(', ');
@@ -16,7 +16,7 @@ void main() async {
   print("====================================");
 
   print("搜索歌单");
-  final searchCursor2 = await MusicPlatform.netEasy.api.searchPlayLists("周兴哲");
+  final searchCursor2 = MusicPlatform.netEasy.api.searchPlayLists("周兴哲");
   await for (var v in searchCursor2.limit(5).nextPage().take(1)) {
     for (final playList in v.data) {
       print("${playList.id} ${playList.name}");
@@ -25,7 +25,7 @@ void main() async {
   print("====================================");
 
   print("搜索歌手");
-  final searchCursor3 = await MusicPlatform.netEasy.api.searchArtistes("周兴哲");
+  final searchCursor3 = MusicPlatform.netEasy.api.searchArtistes("周兴哲");
   await for (var v in searchCursor3.limit(5).nextPage().take(1)) {
     for (final artist in v.data) {
       print("${artist.id} ${artist.name}");
@@ -39,7 +39,7 @@ void main() async {
   print("====================================");
 
   print("获取歌曲播放地址");
-  final songUrl = await MusicPlatform.netEasy.api.simpleSongUrl("2049541052");
+  final songUrl = MusicPlatform.netEasy.api.simpleSongUrl("2049541052");
   print("简单播放地址: $songUrl");
   print("====================================");
 
@@ -59,7 +59,7 @@ void main() async {
   print("====================================");
 
   print("获取歌单音乐");
-  final playListSongs = await MusicPlatform.netEasy.api.playListSongs(playListDetail.data!);
+  final playListSongs = MusicPlatform.netEasy.api.playListSongs(playListDetail.data!);
   await for (var v in playListSongs.limit(5).nextPage().take(1)) {
     for (final song in v.data) {
       final artists = song.artists.map((e) => e.name).join(', ');

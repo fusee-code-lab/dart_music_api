@@ -1,5 +1,3 @@
-library dart_music_api;
-
 export 'package:dart_music_api/src/music_platform.dart';
 export 'package:dart_music_api/src/base_api.dart';
 export 'package:dart_music_api/src/platforms/net_easy/net_easy_api.dart';

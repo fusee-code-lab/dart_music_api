@@ -9,7 +9,6 @@ import 'package:dart_music_api/src/models/play_list.dart';
 import 'package:dart_music_api/src/models/song.dart';
 import 'package:dart_music_api/src/models/song_detail.dart';
 import 'package:dart_music_api/src/models/song_lyrics.dart';
-import 'package:dart_music_api/src/models/song_uri.dart';
 import 'package:dart_music_api/src/result_cursor.dart';
 
 class QQApi implements MusicApi {

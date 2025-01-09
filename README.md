@@ -1,12 +1,16 @@
 # 基于 Dart 与流行网络音乐平台的音乐内容&检索 Api
 
-> ⚠️：开发中。。。
 
 ## 特性
 - 类型安全
 - 空安全 ([Dart Sound null safety](https://dart.dev/null-safety))
 - 方便地在 [flutter](https://flutter.dev/) 中使用
 - 跨平台使用 (Windows, Linux, macOS, Web, iOS, Android)
+
+## TODOS
+
+- [ ] 实现真正的 CombinedApi，支持融合搜索
+- [ ] 解决代码中的 TODO
 
 ## 开发
 

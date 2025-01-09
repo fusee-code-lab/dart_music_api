@@ -1,3 +1,10 @@
 enum RequestMethod {
-  GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS, TRACE
+  get,
+  head,
+  post,
+  put,
+  patch,
+  delete,
+  options,
+  trace,
 }

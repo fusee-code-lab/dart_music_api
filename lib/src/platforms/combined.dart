@@ -20,12 +20,12 @@ class CombinedApi implements MusicApi {
 
   set platforms(List<MusicPlatform> platforms) {
     assert(
-    _platforms.isUnique,
-    'Elements in platforms should not be repeated.',
+      _platforms.isUnique,
+      'Elements in platforms should not be repeated.',
     );
     assert(
-    _platforms.isNotEmpty,
-    'Platforms cannot be empty.',
+      _platforms.isNotEmpty,
+      'Platforms cannot be empty.',
     );
     _curPlatform = _platforms[0];
     _platforms = platforms;
@@ -39,9 +39,10 @@ class CombinedApi implements MusicApi {
 
   set curPlatform(MusicPlatform platform) {
     assert(
-    _platforms.contains(platforms),
-    "Don't using platform not in platforms in this CombinedApi "
-        'instance. It will add given platform to platforms implicitly.');
+      _platforms.contains(platform),
+      "Don't using platform not in platforms in this CombinedApi "
+      'instance. It will add given platform to platforms implicitly.',
+    );
     _curPlatform = platform;
   }
 
@@ -88,7 +89,7 @@ class CombinedApi implements MusicApi {
 
   @override
   ResultCursor<PlayListDetail, ListResponsePack<Song>> playListSongs(
-      PlayListDetail playListDetail) =>
+          PlayListDetail playListDetail) =>
       _curApi.playListSongs(playListDetail);
 
   @override
@@ -102,7 +103,8 @@ class CombinedApi implements MusicApi {
           option: str);
 
   @override
-  ResultCursor<String, ListResponsePack<PlayList>> searchPlayLists(String str) =>
+  ResultCursor<String, ListResponsePack<PlayList>> searchPlayLists(
+          String str) =>
       ResultCursor.wait(_apis.map((e) => e.searchPlayLists(str)).toList(),
           option: str);
 
@@ -129,5 +131,4 @@ class CombinedApi implements MusicApi {
 
   @override
   String simpleSongUrl(String id) => _curApi.simpleSongUrl(id);
-
 }

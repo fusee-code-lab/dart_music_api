@@ -14,12 +14,13 @@ extension Utils<E> on List<E> {
 
 extension CompactMap<E> on List<E?> {
   List<E> compactMap(E Function(E e) f) {
+    // ignore: null_check_on_nullable_type_parameter
     return where((element) => element != null).map((e) => f(e!)).toList();
   }
 }
 
 extension ScopeFunctionsForObject<T extends Object> on T {
-  ReturnType let<ReturnType>(ReturnType Function(T self) operation_for) {
-    return operation_for(this);
+  ReturnType let<ReturnType>(ReturnType Function(T self) operationFor) {
+    return operationFor(this);
   }
 }

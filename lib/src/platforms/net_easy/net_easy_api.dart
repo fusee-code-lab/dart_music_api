@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dart_music_api/music_api.dart';
 import 'package:dart_music_api/src/models/play_list_detail.dart';
 import 'package:dart_music_api/src/response_pack.dart';
@@ -47,8 +45,10 @@ extension on _CloudSearchType {
 
 class NetEasyApi implements MusicApi {
   late final Dio _webDio = NetEasyCrypto.web.request;
-  late final Dio _desktopDio = NetEasyCrypto.desktop.request;
-  late final Dio _linuxDio = NetEasyCrypto.linux.request;
+
+  // TODO: how to do with this?
+  // late final Dio _desktopDio = NetEasyCrypto.desktop.request;
+  // late final Dio _linuxDio = NetEasyCrypto.linux.request;
 
   Artist _buildArtist(Map<String, dynamic> data) {
     // alias
@@ -72,29 +72,32 @@ class NetEasyApi implements MusicApi {
 
   /// 网易云音乐通用的搜索
   ResultCursor<Option, ListResponsePack<E>> _cloudSearch<E, Option>(
-      _CloudSearchType type,
-      Option option,
-      List<E> Function(Map<String, dynamic> data) handleFunc) {
-    // FIXME: 可能永远不会结束
+    _CloudSearchType type,
+    Option option,
+    List<E> Function(Map<String, dynamic> data) handleFunc,
+  ) {
     return ResultCursor(
-        option: option,
-        fetchResultFunc: (String option,
-            {required int limit, required int offset}) async {
-          final data = {
-            's': option,
-            'type': type.value,
-            'limit': limit,
-            'offset': offset,
-            'total': true,
-          };
-          final response =
-              await _webDio.post('/api/cloudsearch/pc', data: data);
-          if (response.data is Map<String, dynamic>) {
-            final result = handleFunc(response.data);
-            return ListResponsePack.of(response: response, data: result);
-          }
-          return ListResponsePack<E>.of(response: response, data: []);
-        });
+      option: option,
+      fetchResultFunc: (
+        String option, {
+        required int limit,
+        required int offset,
+      }) async {
+        final data = {
+          's': option,
+          'type': type.value,
+          'limit': limit,
+          'offset': offset,
+          'total': true,
+        };
+        final response = await _webDio.post('/api/cloudsearch/pc', data: data);
+        if (response.data is Map<String, dynamic>) {
+          final result = handleFunc(response.data);
+          return ListResponsePack.of(response: response, data: result);
+        }
+        return ListResponsePack<E>.of(response: response, data: []);
+      },
+    );
   }
 
   /// 获取歌曲详情
@@ -481,5 +484,5 @@ class NetEasyApi implements MusicApi {
 
   @override
   String simpleSongUrl(String id) =>
-      ' https://music.163.com/song/media/outer/url?id=${id}.mp3';
+      ' https://music.163.com/song/media/outer/url?id=$id.mp3';
 }

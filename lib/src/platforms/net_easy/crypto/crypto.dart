@@ -16,7 +16,7 @@ extension NetEasyEncryption on NetEasyCrypto {
         final jsonStr = json.encode(requestData);
         final message = 'nobody${requestUrl}use${jsonStr}md5forencrypt';
         final digest = md5.convert(utf8.encode(message));
-        final data = '${requestUrl}-36cd479b6b5-${jsonStr}-36cd479b6b5-${digest}';
+        final data = '$requestUrl-36cd479b6b5-$jsonStr-36cd479b6b5-$digest';
 
         final encryptedParams = aesEncrypt(
             text: data,
