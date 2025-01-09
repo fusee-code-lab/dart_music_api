@@ -128,6 +128,6 @@ class CombinedApi implements MusicApi {
   //     _curApi.songUri(id, bitRate: bitRate);
 
   @override
-  String simpleSongUrL(String id) => _curApi.simpleSongUrL(id);
+  String simpleSongUrl(String id) => _curApi.simpleSongUrl(id);
 
 }

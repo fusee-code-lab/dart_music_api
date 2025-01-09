@@ -99,7 +99,7 @@ class QQApi implements MusicApi {
   // }
 
   @override
-  String simpleSongUrL(String id) {
+  String simpleSongUrl(String id) {
     // TODO: implement simpleSongUrL
     throw UnimplementedError();
   }

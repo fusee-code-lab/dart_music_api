@@ -8,7 +8,6 @@ typedef FetchResultFunc<SearchOption, Result extends ResultCursorResult>
     = Future<Result?> Function(SearchOption option,
         {required int limit, required int offset});
 
-// TODO 支持完善的分页操作
 class ResultCursor<SearchOption, Result extends ResultCursorResult<Result>> {
   static const int defaultLimit = 20;
 
@@ -48,6 +47,11 @@ class ResultCursor<SearchOption, Result extends ResultCursorResult<Result>> {
 
   ResultCursor<SearchOption, Result> limit(int limit) {
     _limit = limit;
+    return this;
+  }
+
+  ResultCursor<SearchOption, Result> offset(int offset) {
+    _offset = offset;
     return this;
   }
 

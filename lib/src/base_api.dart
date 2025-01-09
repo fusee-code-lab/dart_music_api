@@ -36,7 +36,10 @@ abstract class MusicApi {
   Future<ResponsePack<SongDetail>> songDetails(String id);
   Future<ListResponsePack<SongDetail>> songsDetails(List<String> ids);
   // Future<ResponsePack<SongUri>> songUri(String id, {BigInt? bitRate});
-  String simpleSongUrL(String id);
+
+  /// 获取歌曲播放地址
+  String simpleSongUrl(String id);
+
   Future<ResponsePack<SongLyrics>> songLyrics(String id);
   // TODO 实现这个 https://binaryify.github.io/NeteaseCloudMusicApi/#/?id=获取音乐-url
 
@@ -44,9 +47,14 @@ abstract class MusicApi {
   Future<ResponsePack<AlbumDetail>> albumDetails(String id);
 
   // play list
+
+  /// 获取歌单详情
   Future<ResponsePack<PlayListDetail>> playListDetails(String id);
+
+  /// 获取歌单音乐
   ResultCursor<PlayListDetail, ListResponsePack<Song>> playListSongs(
-      PlayListDetail playListDetail);
+    PlayListDetail playListDetail,
+  );
 
   // artist
   // TODO 增加获取歌手描述 https://binaryify.github.io/NeteaseCloudMusicApi/#/?id=%e8%8e%b7%e5%8f%96%e6%ad%8c%e6%89%8b%e6%8f%8f%e8%bf%b0
