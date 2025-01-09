@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dart_music_api/music_api.dart';
 import 'package:dart_music_api/src/models/play_list_detail.dart';
 import 'package:dart_music_api/src/response_pack.dart';
@@ -49,9 +51,11 @@ class NetEasyApi implements MusicApi {
   late final Dio _linuxDio = NetEasyCrypto.linux.request;
 
   /// 网易云音乐通用的搜索
-  ResultCursor<Option, ListResponsePack<E>> _cloudSearch<E, Option>(_CloudSearchType type,
-      Option option, List<E> Function(Map<String, dynamic> data) handleFunc) {
-        // FIXME: 可能永远不会结束
+  ResultCursor<Option, ListResponsePack<E>> _cloudSearch<E, Option>(
+      _CloudSearchType type,
+      Option option,
+      List<E> Function(Map<String, dynamic> data) handleFunc) {
+    // FIXME: 可能永远不会结束
     return ResultCursor(
         option: option,
         fetchResultFunc: (String option,
@@ -63,7 +67,8 @@ class NetEasyApi implements MusicApi {
             'offset': offset,
             'total': true,
           };
-          final response = await _webDio.post('/api/cloudsearch/pc', data: data);
+          final response =
+              await _webDio.post('/api/cloudsearch/pc', data: data);
           if (response.data is Map<String, dynamic>) {
             final result = handleFunc(response.data);
             return ListResponsePack.of(response: response, data: result);
@@ -85,10 +90,12 @@ class NetEasyApi implements MusicApi {
       final songsDetail = songsData.map((e) {
         final albumData = Map<String, dynamic>.from(e['al']);
         final artistsData = List<Map<String, dynamic>>.from(e['ar']);
-        final highQualityData = e['h'] != null ? Map<String, dynamic>.from(e['h']) : null;
+        final highQualityData =
+            e['h'] != null ? Map<String, dynamic>.from(e['h']) : null;
         final mediumQualityData =
             e['m'] != null ? Map<String, dynamic>.from(e['m']) : null;
-        final lowQualityData = e['l'] != null ? Map<String, dynamic>.from(e['l']) : null;
+        final lowQualityData =
+            e['l'] != null ? Map<String, dynamic>.from(e['l']) : null;
 
         final album = Album(
             id: albumData['id'].toString(),
@@ -96,7 +103,9 @@ class NetEasyApi implements MusicApi {
             coverImageUrl: albumData['pic_str']);
         final artists = artistsData
             .map((e) => Artist(
-                id: e['id'].toString(), name: e['name'], coverImageUrl: e['img1v1Url']))
+                id: e['id'].toString(),
+                name: e['name'],
+                coverImageUrl: e['img1v1Url']))
             .toList();
         final song = Song(
             id: e['id'].toString(),
@@ -110,20 +119,24 @@ class NetEasyApi implements MusicApi {
             quality: SongQuality(
               high: highQualityData?.let(
                 (it) => SongQualityItem(
-                    bitRate: BigInt.from(it['br']), bitSize: BigInt.from(it['size'])),
+                    bitRate: BigInt.from(it['br']),
+                    bitSize: BigInt.from(it['size'])),
               ),
               medium: mediumQualityData?.let(
                 (it) => SongQualityItem(
-                    bitRate: BigInt.from(it['br']), bitSize: BigInt.from(it['size'])),
+                    bitRate: BigInt.from(it['br']),
+                    bitSize: BigInt.from(it['size'])),
               ),
               low: lowQualityData?.let(
                 (it) => SongQualityItem(
-                    bitRate: BigInt.from(it['br']), bitSize: BigInt.from(it['size'])),
+                    bitRate: BigInt.from(it['br']),
+                    bitSize: BigInt.from(it['size'])),
               ),
             ));
       }).toList();
 
-      return ListResponsePack<SongDetail>.of(response: response, data: songsDetail);
+      return ListResponsePack<SongDetail>.of(
+          response: response, data: songsDetail);
     }
     return ListResponsePack<SongDetail>.of(response: response, data: []);
   }
@@ -168,7 +181,8 @@ class NetEasyApi implements MusicApi {
         album: album,
         artists: artists,
         description: albumData['description'],
-        publishDate: DateTime.fromMillisecondsSinceEpoch(albumData['publishTime']),
+        publishDate:
+            DateTime.fromMillisecondsSinceEpoch(albumData['publishTime']),
         songs: songs,
       );
 
@@ -180,7 +194,8 @@ class NetEasyApi implements MusicApi {
   @override
   Future<ResponsePack<ArtistDetail>> artistDetails(String id) async {
     final data = {'id': id};
-    final response = await _webDio.post('/api/artist/head/info/get', data: data);
+    final response =
+        await _webDio.post('/api/artist/head/info/get', data: data);
     if (response.data is Map<String, dynamic>) {
       final data = response.data['data'];
       final artistData = data['artist'];
@@ -196,7 +211,8 @@ class NetEasyApi implements MusicApi {
           mvCount: artistData['mvSize'],
           briefDescription: artistData['briefDesc']);
 
-      return ResponsePack<ArtistDetail>.of(response: response, data: artistDetail);
+      return ResponsePack<ArtistDetail>.of(
+          response: response, data: artistDetail);
     }
     return ResponsePack<ArtistDetail>.of(response: response, data: null);
   }
@@ -205,7 +221,8 @@ class NetEasyApi implements MusicApi {
   ResultCursor<String, ListResponsePack<Song>> artistSongs(String id) {
     return ResultCursor(
       option: id,
-      fetchResultFunc: (String option, {required int limit, required int offset}) async {
+      fetchResultFunc: (String option,
+          {required int limit, required int offset}) async {
         // TODO 添加 order 参数
         final data = {
           'id': id,
@@ -219,7 +236,8 @@ class NetEasyApi implements MusicApi {
         print(response.data);
 
         if (response.data is Map<String, dynamic>) {
-          final songsData = List<Map<String, dynamic>>.from(response.data['songs']);
+          final songsData =
+              List<Map<String, dynamic>>.from(response.data['songs']);
 
           final songs = songsData.map((e) {
             final albumData = Map<String, dynamic>.from(e['album']);
@@ -267,15 +285,18 @@ class NetEasyApi implements MusicApi {
       'n': 100000,
       's': 0, // 歌单最近的 s 个收藏者,默认为8
     };
-    final response = await _desktopDio.post('/api/v6/playlist/detail', data: data);
+    final response =
+        await _desktopDio.post('/api/v6/playlist/detail', data: data);
     if (response.data is Map<String, dynamic>) {
       final playListData = Map<String, dynamic>.from(response.data['playlist']);
-      final trackIdsData = List<Map<String, dynamic>>.from(playListData['trackIds']);
+      final trackIdsData =
+          List<Map<String, dynamic>>.from(playListData['trackIds']);
       final creatorData = Map<String, dynamic>.from(playListData['creator']);
       final tagsData = List<String>.from(playListData['tags']);
 
       final creator = PlatformUser(
-          id: creatorData['userId'].toString(), nickname: creatorData['nickname']);
+          id: creatorData['userId'].toString(),
+          nickname: creatorData['nickname']);
       final playList = PlayList(
           id: playListData['id'].toString(),
           name: playListData['name'],
@@ -285,12 +306,15 @@ class NetEasyApi implements MusicApi {
           songsCount: playListData['trackCount']);
       final playListDetail = PlayListDetail(
           playList: playList,
-          createTime: DateTime.fromMillisecondsSinceEpoch(playListData['createTime']),
-          updateTime: DateTime.fromMillisecondsSinceEpoch(playListData['updateTime']),
+          createTime:
+              DateTime.fromMillisecondsSinceEpoch(playListData['createTime']),
+          updateTime:
+              DateTime.fromMillisecondsSinceEpoch(playListData['updateTime']),
           tags: tagsData.map((e) => Tag(e)).toList(),
           trackIds: trackIdsData.map((e) => e['id'].toString()).toList());
 
-      return ResponsePack<PlayListDetail>.of(response: response, data: playListDetail);
+      return ResponsePack<PlayListDetail>.of(
+          response: response, data: playListDetail);
     }
     return ResponsePack<PlayListDetail>.of(response: response, data: null);
   }
@@ -316,11 +340,14 @@ class NetEasyApi implements MusicApi {
   @override
   ResultCursor<String, ListResponsePack<Album>> searchAlbums(String str) {
     return _cloudSearch(_CloudSearchType.album, str, (data) {
-      final albumsData = List<Map<String, dynamic>>.from(data['result']['albums']);
+      final albumsData =
+          List<Map<String, dynamic>>.from(data['result']['albums']);
 
       return albumsData
           .map((e) => (Album(
-              id: e['id'].toString(), name: e['name'], coverImageUrl: e['picUrl'])))
+              id: e['id'].toString(),
+              name: e['name'],
+              coverImageUrl: e['picUrl'])))
           .toList();
     });
   }
@@ -328,11 +355,14 @@ class NetEasyApi implements MusicApi {
   @override
   ResultCursor<String, ListResponsePack<Artist>> searchArtistes(String str) {
     return _cloudSearch(_CloudSearchType.artist, str, (data) {
-      final artistsData = List<Map<String, dynamic>>.from(data['result']['albums']);
+      final artistsData =
+          List<Map<String, dynamic>>.from(data['result']['artists']);
 
       return artistsData
-          .map((e) =>
-              Artist(id: e['id'].toString(), name: e['name'], coverImageUrl: e['picUrl']))
+          .map((e) => Artist(
+              id: e['id'].toString(),
+              name: e['name'],
+              coverImageUrl: e['picUrl']))
           .toList();
     });
   }
@@ -340,17 +370,19 @@ class NetEasyApi implements MusicApi {
   @override
   ResultCursor<String, ListResponsePack<PlayList>> searchPlayLists(String str) {
     return _cloudSearch(_CloudSearchType.playlist, str, (data) {
-      final playlistsData = List<Map<String, dynamic>>.from(data['result']['playlists']);
+      final playlistsData =
+          List<Map<String, dynamic>>.from(data['result']['playlists']);
 
       return playlistsData.map((e) {
         final creatorData = Map<String, dynamic>.from(e['creator']);
         return PlayList(
             id: e['id'].toString(),
             name: e['name'],
-            coverImageUrl: e['coverImgUrl'],
+            coverImageUrl: e['description'],
             description: e['description'],
             creator: PlatformUser(
-                id: creatorData['userId'].toString(), nickname: creatorData['nickname']),
+                id: creatorData['userId'].toString(),
+                nickname: creatorData['nickname']),
             songsCount: e['trackCount']);
       }).toList();
     });
@@ -359,17 +391,32 @@ class NetEasyApi implements MusicApi {
   @override
   ResultCursor<String, ListResponsePack<Song>> searchSongs(String str) {
     return _cloudSearch(_CloudSearchType.song, str, (data) {
-      final songsData = List<Map<String, dynamic>>.from(data['result']['songs']);
+      final songsData =
+          List<Map<String, dynamic>>.from(data['result']['songs']);
 
       return songsData.map((e) {
         final artistsData = List<Map<String, dynamic>>.from(e['ar']);
         final albumData = Map<String, dynamic>.from(e['al']);
 
-        // TODO 这里的 artist 并没有 cover url，将该字段设为 Optional
-        final artists = artistsData
-            .map((e) => Artist(
-                id: e['id'].toString(), name: e['name'], coverImageUrl: e['img1v1Url']))
-            .toList();
+        final artists = artistsData.map(
+          (e) {
+            dynamic extractAlias(dynamic list) {
+              if (list is List) {
+                return list.firstOrNull;
+              }
+              return null;
+            }
+            // TODO: why e['alias']?.let cause NoSuchMethodError
+            final alias = extractAlias(e['alias']) ?? extractAlias(e['alia']);
+
+            return Artist(
+              id: e['id'].toString(),
+              name: e['name'],
+              alias: alias,
+              coverImageUrl: e['img1v1Url'],
+            );
+          },
+        ).toList();
         final album = Album(
             id: albumData['id'].toString(),
             name: albumData['name'],
@@ -411,16 +458,21 @@ class NetEasyApi implements MusicApi {
       final lyricsData = Map<String, dynamic>.from(response.data);
       final originalLyricsData = Map<String, dynamic>.from(lyricsData['lrc']);
       // TODO 还有个 klyric 不知道干嘛的 测试 url http://localhost:3000/lyric?id=33894312
-      final translatedLyricsData = Map<String, dynamic>.from(lyricsData['tlyric']);
+      final translatedLyricsData =
+          Map<String, dynamic>.from(lyricsData['tlyric']);
 
-      final originalLyrics = originalLyricsData['lyric'] == '' ? null : SongLyricsItem(
-          strRaw: originalLyricsData['lyric'].toString(),
-          content: [] // TODO 歌词解析
-      );
-      final translatedLyrics = translatedLyricsData['lyric'] == '' ? null : SongLyricsItem(
-          strRaw: translatedLyricsData['lyric'].toString(),
-          content: [] // TODO 歌词解析
-      );
+      final originalLyrics = originalLyricsData['lyric'] == ''
+          ? null
+          : SongLyricsItem(
+              strRaw: originalLyricsData['lyric'].toString(),
+              content: [] // TODO 歌词解析
+              );
+      final translatedLyrics = translatedLyricsData['lyric'] == ''
+          ? null
+          : SongLyricsItem(
+              strRaw: translatedLyricsData['lyric'].toString(),
+              content: [] // TODO 歌词解析
+              );
       final lyrics = SongLyrics(
         original: originalLyrics,
         translated: translatedLyrics,

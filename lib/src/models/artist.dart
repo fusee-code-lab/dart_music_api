@@ -1,12 +1,17 @@
-// TODO 增加 alias，EG: alia of IU is '李知恩'
 class Artist {
   final String id;
   final String name;
-  final String coverImageUrl;
+
+  /// 歌手别名，比如 IU 的别名是 '李知恩'，周兴哲的别名是 'Eric Chou'
+  final String? alias;
+
+  // TODO: dive into this (netease)
+  final String? coverImageUrl;
 
   Artist({
     required this.id,
     required this.name,
-    required this.coverImageUrl,
+    this.alias,
+    this.coverImageUrl,
   });
 }

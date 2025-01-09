@@ -4,8 +4,9 @@ abstract class ResultCursorResult<Raw> {
   Raw combineWithOther(Raw other);
 }
 
-typedef FetchResultFunc<SearchOption, Result extends ResultCursorResult> = Future<Result?>
-Function(SearchOption option, {required int limit, required int offset});
+typedef FetchResultFunc<SearchOption, Result extends ResultCursorResult>
+    = Future<Result?> Function(SearchOption option,
+        {required int limit, required int offset});
 
 // TODO 支持完善的分页操作
 class ResultCursor<SearchOption, Result extends ResultCursorResult<Result>> {
@@ -21,24 +22,23 @@ class ResultCursor<SearchOption, Result extends ResultCursorResult<Result>> {
     offset = 0,
     required option,
     required fetchResultFunc,
-  })
-      : _limit = limit,
+  })  : _limit = limit,
         _offset = offset = 0,
         _option = option,
         _fetchResultFunc = fetchResultFunc;
 
-  ResultCursor.wait(List<ResultCursor<SearchOption, Result>> cursors,
-      {
-        eachLimit = ResultCursor.defaultLimit,
-        offset = 0,
-        required option,
-      })
-      : _limit = eachLimit,
+  ResultCursor.wait(
+    List<ResultCursor<SearchOption, Result>> cursors, {
+    eachLimit = ResultCursor.defaultLimit,
+    offset = 0,
+    required option,
+  })  : _limit = eachLimit,
         _offset = offset,
         _option = option {
-    _fetchResultFunc = (SearchOption option, {required int limit, required int offset}) async {
-      final results = cursors.map((e) =>
-          e._fetchResultFunc(option, limit: limit, offset: offset));
+    _fetchResultFunc =
+        (SearchOption option, {required int limit, required int offset}) async {
+      final results = cursors
+          .map((e) => e._fetchResultFunc(option, limit: limit, offset: offset));
       final combined = await Future.wait(results);
       return combined
           .compactMap((e) => e)
@@ -53,7 +53,10 @@ class ResultCursor<SearchOption, Result extends ResultCursorResult<Result>> {
 
   Stream<Result> nextPage() async* {
     final results = await _fetchResultFunc(
-        _option, limit: _limit, offset: _offset);
+      _option,
+      limit: _limit,
+      offset: _offset,
+    );
     if (results == null) return;
     yield results;
     _offset += _limit;

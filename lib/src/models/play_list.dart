@@ -3,8 +3,8 @@ import 'package:dart_music_api/src/models/platform_user.dart';
 class PlayList {
   final String id;
   final String name;
-  final String coverImageUrl;
-  final String description;
+  final String? coverImageUrl;
+  final String? description;
   final PlatformUser creator;
   final int songsCount;
 

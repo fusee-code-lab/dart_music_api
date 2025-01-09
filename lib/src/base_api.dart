@@ -22,6 +22,9 @@ abstract class MusicApi {
   MusicApi();
 
   // search
+  
+  /// 搜索单曲
+  /// Notes: 网易云的单曲搜索 api 可能不包含歌手头像
   ResultCursor<String, ListResponsePack<Song>> searchSongs(String str);
   ResultCursor<String, ListResponsePack<PlayList>> searchPlayLists(String str);
   ResultCursor<String, ListResponsePack<Artist>> searchArtistes(String str);
