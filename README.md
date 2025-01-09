@@ -8,6 +8,22 @@
 - 方便地在 [flutter](https://flutter.dev/) 中使用
 - 跨平台使用 (Windows, Linux, macOS, Web, iOS, Android)
 
+## 开发
+
+确保已经安装了最新版本的 Dart SDK，然后执行：
+
+安装依赖
+
+```bash
+dart pub get
+```
+
+开始开发之前，运行 build_runner 来生成代码
+
+```bash
+dart pub run build_runner watch
+```
+
 ## 支持的操作
 - 搜索
     - [x] 搜索单曲 (支持分页)
