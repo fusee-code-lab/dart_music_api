@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dart_music_api/src/platforms/net_easy/crypto/crypto_platform.dart';
 import 'package:dart_music_api/src/platforms/net_easy/request/build_header.dart';
 import 'package:dart_music_api/src/platforms/net_easy/crypto/crypto.dart';
@@ -15,19 +17,32 @@ Dio buildNetEasyEasyDesktopApiRequest() {
   final cookieJar = CookieJar();
   dio.interceptors.add(CookieManager(cookieJar));
 
-  dio.interceptors.add(InterceptorsWrapper(onRequest: (RequestOptions options) {
-    final header = buildHeader(options: options, ua: UserAgentType.pc);
-    final requestData = netEasyCrypto.encrypt(
-      requestUrl: options.uri.toString(),
-      requestData: options.data,
-    );
-    final newPath = options.uri.path.replaceAll(RegExp(r'\w*api'), netEasyCrypto.prefix);
-    
-    return options
-      ..headers = header
-      ..queryParameters = requestData
-      ..path = newPath;
-  }));
+  dio.interceptors.add(InterceptorsWrapper(
+    onRequest: (options, handler) {
+      final header = buildHeader(options: options, ua: UserAgentType.pc);
+      final requestData = netEasyCrypto.encrypt(
+        requestUrl: options.uri.toString(),
+        requestData: options.data,
+      );
+      final newPath =
+          options.uri.path.replaceAll(RegExp(r'\w*api'), netEasyCrypto.prefix);
+
+      final newOptions = options
+        ..headers = header
+        ..queryParameters = requestData
+        ..path = newPath;
+
+      return handler.next(newOptions);
+    },
+    onResponse: (response, handler) {
+      if (response.data is String) {
+        final strData = response.data as String;
+        final jsonData = json.decode(strData);
+        response.data = Map<String, dynamic>.from(jsonData);
+      }
+      return handler.next(response);
+    },
+  ));
 
   return dio;
 }

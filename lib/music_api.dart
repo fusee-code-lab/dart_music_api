@@ -18,3 +18,6 @@ export 'package:dart_music_api/src/models/song_uri.dart';
 export 'package:dart_music_api/src/models/tag.dart';
 export 'package:dart_music_api/src/result_cursor.dart';
 export 'package:dart_music_api/src/utils/extensions.dart';
+export 'package:dart_music_api/src/platforms/net_easy/crypto/crypto_platform.dart';
+export 'package:dart_music_api/src/platforms/net_easy/crypto/crypto.dart';
+export 'package:dart_music_api/src/platforms/net_easy/request/net_easy_request.dart';

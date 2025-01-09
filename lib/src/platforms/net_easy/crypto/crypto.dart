@@ -28,12 +28,14 @@ extension NetEasyEncryption on NetEasyCrypto {
 
       case NetEasyCrypto.web:
         final jsonStr = json.encode(requestData);
+        print('body json $jsonStr');
         final base62SecretKeyRaw = Uint8List.fromList(
             List.filled(16, 0)
                 .map((e) => Random().nextInt(1062))
                 .map((e) => base62sources[e % 62].codeUnitAt(0)).toList()
         );
         final secretKey = Key(base62SecretKeyRaw);
+        print("secret ${String.fromCharCodes(base62SecretKeyRaw)}");
 
         final encryptedParams = aesEncrypt(
           text: aesEncrypt(
@@ -52,6 +54,8 @@ extension NetEasyEncryption on NetEasyCrypto {
             key: publicKey
         ).base16;
 
+        print(encryptedParams);
+        print(encryptedSecretKey);
         return {
           'params': encryptedParams,
           'encSecKey': encryptedSecretKey,

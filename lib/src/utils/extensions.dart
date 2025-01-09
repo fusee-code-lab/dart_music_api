@@ -18,3 +18,8 @@ extension CompactMap<E> on List<E?> {
   }
 }
 
+extension ScopeFunctionsForObject<T extends Object> on T {
+  ReturnType let<ReturnType>(ReturnType Function(T self) operation_for) {
+    return operation_for(this);
+  }
+}

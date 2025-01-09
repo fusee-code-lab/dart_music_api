@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dart_music_api/src/platforms/net_easy/crypto/crypto_platform.dart';
@@ -17,28 +18,43 @@ Dio buildNetEasyEasyWebApiRequest() {
   final cookieJar = CookieJar();
   dio.interceptors.add(CookieManager(cookieJar));
 
-  dio.interceptors.add(InterceptorsWrapper(onRequest: (RequestOptions options) {
-    final header = buildHeader(options: options, ua: UserAgentType.pc);
-    final String cookies = header[HttpHeaders.cookieHeader] ?? '';
-    final Map<String, dynamic> data = options.data ?? {};
+  dio.interceptors.add(InterceptorsWrapper(
+    onRequest: (options, handler) {
+      final header = buildHeader(options: options, ua: UserAgentType.pc);
+      final String cookies = header[HttpHeaders.cookieHeader] ?? '';
+      final Map<String, dynamic> data = options.data ?? {};
 
-    final csrfToken = cookies
-        .split('; ')
-        .firstWhere((c) => c.split('=').last == '__csrf', orElse: () => '')
-        .split('=').last;
-    data['csrf_token'] = csrfToken;
+      final csrfToken = cookies
+          .split('; ')
+          .firstWhere((c) => c.split('=').last == '__csrf', orElse: () => '')
+          .split('=')
+          .last;
+      data['csrf_token'] = csrfToken;
 
-    final requestData = netEasyCrypto.encrypt(
-      requestUrl: options.uri.toString(),
-      requestData: data,
-    );
-    final newPath = options.uri.path.replaceAll(RegExp(r'\w*api'), netEasyCrypto.prefix);
+      final requestData = netEasyCrypto.encrypt(
+        requestUrl: options.uri.toString(),
+        requestData: data,
+      );
+      final newPath =
+          options.uri.path.replaceAll(RegExp(r'\w*api'), netEasyCrypto.prefix);
+      print("new path: $newPath");
 
-    return options
-      ..headers = header
-      ..queryParameters = requestData
-      ..path = newPath;
-  }));
+      final newOptions = options
+        ..headers = header
+        ..queryParameters = requestData
+        ..path = newPath;
+
+      return handler.next(newOptions);
+    },
+    onResponse: (response, handler) {
+      if (response.data is String) {
+        final strData = response.data as String;
+        final jsonData = json.decode(strData);
+        response.data = Map<String, dynamic>.from(jsonData);
+      }
+      return handler.next(response);
+    },
+  ));
 
   return dio;
 }

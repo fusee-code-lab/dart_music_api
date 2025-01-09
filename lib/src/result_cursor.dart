@@ -1,10 +1,14 @@
 import 'package:dart_music_api/src/utils/extensions.dart';
 
-typedef FetchResultFunc<SearchOption, Result> = Future<List<Result>?>
+abstract class ResultCursorResult<Raw> {
+  Raw combineWithOther(Raw other);
+}
+
+typedef FetchResultFunc<SearchOption, Result extends ResultCursorResult> = Future<Result?>
 Function(SearchOption option, {required int limit, required int offset});
 
 // TODO 支持完善的分页操作
-class ResultCursor<SearchOption, Result> {
+class ResultCursor<SearchOption, Result extends ResultCursorResult<Result>> {
   static const int defaultLimit = 20;
 
   int _limit;
@@ -38,9 +42,7 @@ class ResultCursor<SearchOption, Result> {
       final combined = await Future.wait(results);
       return combined
           .compactMap((e) => e)
-          .expand((element) {
-            return element;
-          }).toList();
+          .reduce((value, element) => value.combineWithOther(element));
     };
   }
 
@@ -49,7 +51,7 @@ class ResultCursor<SearchOption, Result> {
     return this;
   }
 
-  Stream<List<Result>> nextPage() async* {
+  Stream<Result> nextPage() async* {
     final results = await _fetchResultFunc(
         _option, limit: _limit, offset: _offset);
     if (results == null) return;

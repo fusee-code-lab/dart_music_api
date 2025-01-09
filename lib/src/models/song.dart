@@ -1,6 +1,7 @@
 import 'package:dart_music_api/src/models/artist.dart';
 import 'package:dart_music_api/src/models/album.dart';
 
+// TODO 增加 alias ， EG: the alia of 海阔天空 is 网络电影《九五2班》插曲
 class Song {
   final String id;
   final String name;

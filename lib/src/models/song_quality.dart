@@ -1,12 +1,14 @@
-enum SongQualityLevel {
-  height,
-  medium,
+class SongQuality {
+  final SongQualityItem? high;
+  final SongQualityItem? medium;
+  final SongQualityItem? low;
+
+  SongQuality({this.high, this.medium, this.low});
 }
 
-class SongQuality {
-  final SongQualityLevel level;
+class SongQualityItem {
   final BigInt bitRate;
   final BigInt bitSize;
 
-  SongQuality({required this.level, required this.bitRate, required this.bitSize});
+  const SongQualityItem({required this.bitRate, required this.bitSize});
 }

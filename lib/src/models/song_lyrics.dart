@@ -1,13 +1,15 @@
-class SongLyricsAuthor {
-  final String id;
-  final String nickname;
-  final DateTime uploadTime;
+class SongLyrics {
+  final SongLyricsItem? original;
+  final SongLyricsItem? translated;
 
-  SongLyricsAuthor({
-    required this.id,
-    required this.nickname,
-    required this.uploadTime
-  });
+  SongLyrics({this.original, this.translated});
+}
+
+class SongLyricsItem {
+  final String strRaw;
+  final List<SongLyricsSentence> content;
+
+  SongLyricsItem({ required this.strRaw, required this.content});
 }
 
 class SongLyricsSentence {
@@ -19,17 +21,3 @@ class SongLyricsSentence {
   SongLyricsSentence({ required this.ms, required this.startTime, required this.content});
 }
 
-class SongLyricsItem {
-  final String strRaw;
-  final SongLyricsAuthor author;
-  final List<SongLyricsItem> content;
-
-  SongLyricsItem({ required this.strRaw, required this.author, required this.content});
-}
-
-class SongLyrics {
-  final SongLyricsItem? original;
-  final SongLyricsItem? translated;
-
-  SongLyrics({this.original, this.translated});
-}

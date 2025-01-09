@@ -1,3 +1,4 @@
+// TODO 加入歌手
 class Album {
   final String id;
   final String name;
