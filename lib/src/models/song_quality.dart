@@ -1,14 +1,25 @@
-class SongQuality {
-  final SongQualityItem? high;
-  final SongQualityItem? medium;
-  final SongQualityItem? low;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  SongQuality({this.high, this.medium, this.low});
+part 'song_quality.freezed.dart';
+part 'song_quality.g.dart';
+
+@freezed
+class SongQuality with _$SongQuality {
+  const factory SongQuality({
+    SongQualityItem? high,
+    SongQualityItem? medium,
+    SongQualityItem? low,
+  }) = _SongQuality;
+
+  factory SongQuality.fromJson(Map<String, dynamic> json) => _$SongQualityFromJson(json);
 }
 
-class SongQualityItem {
-  final BigInt bitRate;
-  final BigInt bitSize;
+@freezed
+class SongQualityItem with _$SongQualityItem {
+  const factory SongQualityItem({
+    required BigInt bitRate,
+    required BigInt bitSize,
+  }) = _SongQualityItem;
 
-  const SongQualityItem({required this.bitRate, required this.bitSize});
+  factory SongQualityItem.fromJson(Map<String, dynamic> json) => _$SongQualityItemFromJson(json);
 }

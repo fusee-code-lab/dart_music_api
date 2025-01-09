@@ -1,23 +1,37 @@
-class SongLyrics {
-  final SongLyricsItem? original;
-  final SongLyricsItem? translated;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  SongLyrics({this.original, this.translated});
+part 'song_lyrics.freezed.dart';
+part 'song_lyrics.g.dart';
+
+@freezed
+class SongLyrics with _$SongLyrics {
+  const factory SongLyrics({
+    SongLyricsItem? original,
+    SongLyricsItem? translated,
+  }) = _SongLyrics;
+
+  factory SongLyrics.fromJson(Map<String, dynamic> json) => _$SongLyricsFromJson(json);
 }
 
-class SongLyricsItem {
-  final String strRaw;
-  final List<SongLyricsSentence> content;
+@freezed
+class SongLyricsItem with _$SongLyricsItem {
+  const factory SongLyricsItem({
+    required String strRaw,
+    required List<SongLyricsSentence> content,
+  }) = _SongLyricsItem;
 
-  SongLyricsItem({ required this.strRaw, required this.content});
+  factory SongLyricsItem.fromJson(Map<String, dynamic> json) => _$SongLyricsItemFromJson(json);
 }
 
-class SongLyricsSentence {
-  final BigInt ms;
-  // TODO 用表示时间的模型 例如 TimeOfDay https://api.flutter.dev/flutter/material/TimeOfDay-class.html
-  final String startTime;
-  final String content;
+@freezed
+class SongLyricsSentence with _$SongLyricsSentence {
+  const factory SongLyricsSentence({
+    required BigInt ms,
+    // TODO 用表示时间的模型 例如 TimeOfDay https://api.flutter.dev/flutter/material/TimeOfDay-class.html
+    required String startTime,
+    required String content,
+  }) = _SongLyricsSentence;
 
-  SongLyricsSentence({ required this.ms, required this.startTime, required this.content});
+  factory SongLyricsSentence.fromJson(Map<String, dynamic> json) => _$SongLyricsSentenceFromJson(json);
 }
 

@@ -311,7 +311,7 @@ class NetEasyApi implements MusicApi {
               DateTime.fromMillisecondsSinceEpoch(playListData['createTime']),
           updateTime:
               DateTime.fromMillisecondsSinceEpoch(playListData['updateTime']),
-          tags: tagsData.map((e) => Tag(e)).toList(),
+          tags: tagsData.map((e) => Tag(str: e)).toList(),
           trackIds: trackIdsData.map((e) => e['id'].toString()).toList());
 
       return ResponsePack<PlayListDetail>.of(

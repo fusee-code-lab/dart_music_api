@@ -1,17 +1,16 @@
-class Artist {
-  final String id;
-  final String name;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  /// 歌手别名，比如 IU 的别名是 '李知恩'，周兴哲的别名是 'Eric Chou'
-  final String? alias;
+part 'artist.freezed.dart';
+part 'artist.g.dart';
 
-  // TODO: dive into this (netease)
-  final String? coverImageUrl;
+@freezed
+class Artist with _$Artist {
+  const factory Artist({
+    required String id,
+    required String name,
+    String? alias,
+    String? coverImageUrl,
+  }) = _Artist;
 
-  Artist({
-    required this.id,
-    required this.name,
-    this.alias,
-    this.coverImageUrl,
-  });
+  factory Artist.fromJson(Map<String, dynamic> json) => _$ArtistFromJson(json);
 }

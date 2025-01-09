@@ -1,19 +1,19 @@
 import 'package:dart_music_api/src/models/platform_user.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class PlayList {
-  final String id;
-  final String name;
-  final String? coverImageUrl;
-  final String? description;
-  final PlatformUser creator;
-  final int songsCount;
+part 'play_list.freezed.dart';
+part 'play_list.g.dart';
 
-  PlayList({
-    required this.id,
-    required this.name,
-    required this.coverImageUrl,
-    required this.description,
-    required this.creator,
-    required this.songsCount,
-  });
+@freezed
+class PlayList with _$PlayList {
+  const factory PlayList({
+    required String id,
+    required String name,
+    String? coverImageUrl,
+    String? description,
+    required PlatformUser creator,
+    required int songsCount,
+  }) = _PlayList;
+
+  factory PlayList.fromJson(Map<String, dynamic> json) => _$PlayListFromJson(json);
 }

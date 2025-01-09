@@ -1,17 +1,18 @@
-class SongUri {
-  final String id;
-  final String url;
-  final BigInt bitRate;
-  final BigInt bitSize;
-  final String md5CheckSum;
-  final String fileType;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  SongUri({
-    required this.id,
-    required this.url,
-    required this.bitRate,
-    required this.bitSize,
-    required this.md5CheckSum,
-    required this.fileType
-  });
+part 'song_uri.freezed.dart';
+part 'song_uri.g.dart';
+
+@freezed
+class SongUri with _$SongUri {
+  const factory SongUri({
+    required String id,
+    required String url,
+    required BigInt bitRate,
+    required BigInt bitSize,
+    required String md5CheckSum,
+    required String fileType,
+  }) = _SongUri;
+
+  factory SongUri.fromJson(Map<String, dynamic> json) => _$SongUriFromJson(json);
 }

@@ -1,17 +1,18 @@
 import 'package:dart_music_api/music_api.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class ArtistDetail {
-  final Artist artist;
-  final int albumCount;
-  final int musicCount;
-  final int mvCount;
-  final String briefDescription;
+part 'artist_detail.freezed.dart';
+part 'artist_detail.g.dart';
 
-  ArtistDetail({
-    required this.artist,
-    required this.albumCount,
-    required this.musicCount,
-    required this.mvCount,
-    required this.briefDescription
-  });
+@freezed
+class ArtistDetail with _$ArtistDetail {
+  const factory ArtistDetail({
+    required Artist artist,
+    required int albumCount,
+    required int musicCount,
+    required int mvCount,
+    required String briefDescription,
+  }) = _ArtistDetail;
+
+  factory ArtistDetail.fromJson(Map<String, dynamic> json) => _$ArtistDetailFromJson(json);
 }

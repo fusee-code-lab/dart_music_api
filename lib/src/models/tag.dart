@@ -1,5 +1,13 @@
-class Tag {
-  final String str;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  Tag(this.str);
+part 'tag.freezed.dart';
+part 'tag.g.dart';
+
+@freezed
+class Tag with _$Tag {
+  const factory Tag({
+    required String str,
+  }) = _Tag;
+
+  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 }

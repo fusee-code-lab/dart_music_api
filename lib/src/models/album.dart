@@ -1,12 +1,15 @@
-// TODO 加入歌手
-class Album {
-  final String id;
-  final String name;
-  final String coverImageUrl;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  Album({
-    required this.id,
-    required this.name,
-    required this.coverImageUrl,
-  });
+part 'album.freezed.dart';
+part 'album.g.dart';
+
+@freezed
+class Album with _$Album {
+  const factory Album({
+    required String id,
+    required String name,
+    required String coverImageUrl,
+  }) = _Album;
+
+  factory Album.fromJson(Map<String, dynamic> json) => _$AlbumFromJson(json);
 }
