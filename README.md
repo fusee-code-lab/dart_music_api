@@ -7,6 +7,10 @@
 - 方便地在 [flutter](https://flutter.dev/) 中使用
 - 跨平台使用 (Windows, Linux, macOS, Web, iOS, Android)
 
+## 相关项目
+
+- [lyrics_parser](https://github.com/fusee-code-lab/lyrics_parser)
+
 ## TODOS
 
 - [ ] 实现真正的 CombinedApi，支持融合搜索

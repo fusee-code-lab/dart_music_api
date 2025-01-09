@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'song_lyrics.freezed.dart';
 part 'song_lyrics.g.dart';
 
+// TODO: 增添歌词解析细节，参考 lyrcis_parser
 @freezed
 class SongLyrics with _$SongLyrics {
   const factory SongLyrics({
@@ -26,9 +27,7 @@ class SongLyricsItem with _$SongLyricsItem {
 @freezed
 class SongLyricsSentence with _$SongLyricsSentence {
   const factory SongLyricsSentence({
-    required BigInt ms,
-    // TODO 用表示时间的模型 例如 TimeOfDay https://api.flutter.dev/flutter/material/TimeOfDay-class.html
-    required String startTime,
+    required BigInt? ms,
     required String content,
   }) = _SongLyricsSentence;
 

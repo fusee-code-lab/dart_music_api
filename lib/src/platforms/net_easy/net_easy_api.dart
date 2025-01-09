@@ -3,6 +3,7 @@ import 'package:dart_music_api/src/models/play_list_detail.dart';
 import 'package:dart_music_api/src/response_pack.dart';
 import 'package:dart_music_api/src/models/artist_detail.dart';
 import 'package:dio/dio.dart';
+import 'package:lyrics_parser/lyrics_parser.dart';
 
 /// 网易云音乐搜索类型
 enum _CloudSearchType {
@@ -460,18 +461,34 @@ class NetEasyApi implements MusicApi {
       final translatedLyricsData =
           Map<String, dynamic>.from(lyricsData['tlyric']);
 
-      final originalLyrics = originalLyricsData['lyric'] == ''
+      Future<List<SongLyricsSentence>> parse(String str) async {
+        final parsed = await LyricsParser(str).parse();
+        return parsed.lyricList
+            .map(
+              (e) => SongLyricsSentence(
+                ms: e.startTimeMillisecond,
+                content: e.content,
+              ),
+            )
+            .toList();
+      }
+
+      final originalLyricsStr = originalLyricsData['lyric'].toString();
+      final originalLyrics = originalLyricsStr.isEmpty
           ? null
           : SongLyricsItem(
-              strRaw: originalLyricsData['lyric'].toString(),
-              content: [] // TODO 歌词解析
-              );
-      final translatedLyrics = translatedLyricsData['lyric'] == ''
+              strRaw: originalLyricsStr,
+              content: await parse(originalLyricsStr),
+            );
+
+      final translatedLyricsStr = translatedLyricsData['lyric'].toString();
+      final translatedLyrics = translatedLyricsStr.isEmpty
           ? null
           : SongLyricsItem(
-              strRaw: translatedLyricsData['lyric'].toString(),
-              content: [] // TODO 歌词解析
-              );
+              strRaw: translatedLyricsStr,
+              content: await parse(translatedLyricsStr),
+            );
+
       final lyrics = SongLyrics(
         original: originalLyrics,
         translated: translatedLyrics,
