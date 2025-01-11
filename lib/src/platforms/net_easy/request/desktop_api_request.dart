@@ -50,7 +50,7 @@ extension NeteaseNetworkDesktop on NetEasyApi {
           ..queryParameters = requestData
           ..path = newPath;
 
-        // TODO:
+        // TODO: 支持 response 加密
         //           if (data.e_r) {
         //   settings = {
         //     ...settings,
