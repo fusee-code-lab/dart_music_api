@@ -13,7 +13,6 @@ void main() async {
   final songUri = await api.songUri("523250334");
   print(songUri.data);
   print("====================================");
-  exit(0);
 
   print('搜索单曲');
   final searchCursor = api.searchSongs("周兴哲");

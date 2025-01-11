@@ -138,6 +138,7 @@ extension NeteaseHttpBuilder on NetEasyApi {
             crypto.chooseUserAgent(preferredType: UserAgentType.iphone);
         headers[HttpHeaders.userAgentHeader] = userAgent;
 
+        headers.remove(HttpHeaders.contentTypeHeader);
         headers.removeWhere((key, value) => value == null);
         return headers;
       case NetEasyCrypto.web:

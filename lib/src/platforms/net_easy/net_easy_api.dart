@@ -237,7 +237,7 @@ class NetEasyApi implements MusicApi {
       '/api/song/enhance/player/url/v1',
       data: data,
     );
-    print(response.data);
+
     if (response.data is Map<String, dynamic>) {
       final songsData =
           List<Map<String, dynamic>>.from(response.data['data']).firstOrNull;

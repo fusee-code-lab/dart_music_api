@@ -36,7 +36,7 @@ extension NeteaseNetworkDesktop on NetEasyApi {
         }
 
         final requestData = netEasyCrypto.encrypt(
-          requestUrl: options.uri.toString(),
+          requestUrl: options.uri.path,
           requestData: data,
         );
 
@@ -47,9 +47,10 @@ extension NeteaseNetworkDesktop on NetEasyApi {
 
         final newOptions = options
           ..headers = header
-          ..queryParameters = doEncrypt ? requestData : options.data
+          ..queryParameters = requestData
           ..path = newPath;
 
+        // TODO:
         //           if (data.e_r) {
         //   settings = {
         //     ...settings,

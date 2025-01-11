@@ -38,7 +38,7 @@ extension NeteaseNetworkWeb on NetEasyApi {
         data['csrf_token'] = csrfToken;
 
         final requestData = netEasyCrypto.encrypt(
-          requestUrl: options.uri.toString(),
+          requestUrl: options.uri.path,
           requestData: data,
         );
         final newPath = options.uri.path.replaceAll(
