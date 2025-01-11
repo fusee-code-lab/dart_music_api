@@ -12,7 +12,7 @@ import 'package:cookie_jar/cookie_jar.dart';
 Dio buildNetEasyEasyDesktopApiRequest() {
   final netEasyCrypto = NetEasyCrypto.desktop;
   final dio = Dio();
-  dio.options.baseUrl = netEasyBaseUrl;
+  dio.options.baseUrl = netEasyApiBaseUrl;
 
   final cookieJar = CookieJar();
   dio.interceptors.add(CookieManager(cookieJar));

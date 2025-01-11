@@ -1,18 +1,8 @@
-import 'package:dart_music_api/src/base_api.dart';
+import 'package:dart_music_api/music_api.dart';
 import 'package:dart_music_api/src/models/play_list_detail.dart';
 import 'package:dart_music_api/src/response_pack.dart';
-import 'package:dart_music_api/src/models/album_detail.dart';
-import 'package:dart_music_api/src/models/artist.dart';
-import 'package:dart_music_api/src/models/album.dart';
 import 'package:dart_music_api/src/models/artist_detail.dart';
-import 'package:dart_music_api/src/models/play_list.dart';
-import 'package:dart_music_api/src/models/song.dart';
-import 'package:dart_music_api/src/models/song_detail.dart';
-import 'package:dart_music_api/src/models/song_lyrics.dart';
-import 'package:dart_music_api/src/result_cursor.dart';
-import 'package:dart_music_api/src/music_platform.dart';
-import 'package:dart_music_api/src/utils/extensions.dart';
-import 'package:dio/src/dio.dart';
+import 'package:dio/dio.dart';
 
 class CombinedApi implements MusicApi {
   List<MusicPlatform> _platforms = [];
@@ -65,6 +55,12 @@ class CombinedApi implements MusicApi {
 
   // TODO 缓存而不是重新创建
   MusicApi get _curApi => curPlatform.api;
+
+  @override
+  Future<void> init() {
+    // TODO: implement init
+    throw UnimplementedError();
+  }
 
   @override
   Future<ResponsePack<AlbumDetail>> albumDetails(String id) =>
@@ -126,9 +122,9 @@ class CombinedApi implements MusicApi {
   Future<ResponsePack<SongLyrics>> songLyrics(String id) =>
       _curApi.songLyrics(id);
 
-  // @override
-  // Future<ResponsePack<SongUri>> songUri(String id, {BigInt? bitRate}) =>
-  //     _curApi.songUri(id, bitRate: bitRate);
+  @override
+  Future<ResponsePack<SongUri>> songUri(String id, {BigInt? bitRate}) =>
+      _curApi.songUri(id, bitRate: bitRate);
 
   @override
   String simpleSongUrl(String id) => _curApi.simpleSongUrl(id);

@@ -1,5 +1,6 @@
 import 'package:dart_music_api/src/base_api.dart';
 import 'package:dart_music_api/src/models/play_list_detail.dart';
+import 'package:dart_music_api/src/models/song_uri.dart';
 import 'package:dart_music_api/src/response_pack.dart';
 import 'package:dart_music_api/src/models/artist.dart';
 import 'package:dart_music_api/src/models/album.dart';
@@ -10,9 +11,15 @@ import 'package:dart_music_api/src/models/song.dart';
 import 'package:dart_music_api/src/models/song_detail.dart';
 import 'package:dart_music_api/src/models/song_lyrics.dart';
 import 'package:dart_music_api/src/result_cursor.dart';
-import 'package:dio/src/dio.dart';
+import 'package:dio/dio.dart';
 
 class QQApi implements MusicApi {
+  @override
+  Future<void> init() {
+    // TODO: implement init
+    throw UnimplementedError();
+  }
+
   @override
   Future<ResponsePack<AlbumDetail>> albumDetails(String id) {
     // TODO: implement albumDetail
@@ -92,11 +99,11 @@ class QQApi implements MusicApi {
     throw UnimplementedError();
   }
 
-  // @override
-  // Future<ResponsePack<SongUri>> songUri(String id, {BigInt? bitRate}) {
-  //   // TODO: implement songUri
-  //   throw UnimplementedError();
-  // }
+  @override
+  Future<ResponsePack<SongUri>> songUri(String id, {BigInt? bitRate}) {
+    // TODO: implement songUri
+    throw UnimplementedError();
+  }
 
   @override
   String simpleSongUrl(String id) {

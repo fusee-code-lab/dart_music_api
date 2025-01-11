@@ -1,10 +1,17 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dart_music_api/music_api.dart';
 
 final encoder = JsonEncoder.withIndent('  ');
 
 void main() async {
+  print("获取歌曲 url");
+  final songUri = await MusicPlatform.netEasy.api.songUri("523250334");
+  print(songUri.data);
+  print("====================================");
+  exit(0);
+
   print('搜索单曲');
   final searchCursor = MusicPlatform.netEasy.api.searchSongs("周兴哲");
   await for (var v in searchCursor.limit(5).allPages().take(1)) {

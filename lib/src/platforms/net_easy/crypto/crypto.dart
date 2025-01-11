@@ -8,6 +8,12 @@ import 'package:dart_music_api/src/platforms/net_easy/crypto/public_key.dart';
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
 
+String randomKey(int length) {
+  final randomBytes = List<int>.generate(length, (_) => Random.secure().nextInt(256));
+  final hexString = randomBytes.map((byte) => byte.toRadixString(16).padLeft(2, '0')).join();
+  return hexString;
+}
+
 extension NetEasyEncryption on NetEasyCrypto {
   Map<String, dynamic> encrypt(
       { required String requestUrl, required Object requestData }) {
@@ -71,4 +77,8 @@ extension NetEasyEncryption on NetEasyCrypto {
         };
     }
   }
+}
+
+void main() {
+  print(randomKey(32));
 }

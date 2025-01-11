@@ -1,9 +1,17 @@
 import 'package:dart_music_api/music_api.dart';
 import 'package:dart_music_api/src/models/play_list_detail.dart';
+import 'package:dart_music_api/src/platforms/net_easy/models/anonymous_info.dart';
+import 'package:dart_music_api/src/platforms/net_easy/crypto/device_id.dart';
+import 'package:dart_music_api/src/platforms/net_easy/request/web_api_request.dart';
 import 'package:dart_music_api/src/response_pack.dart';
 import 'package:dart_music_api/src/models/artist_detail.dart';
 import 'package:dio/dio.dart';
 import 'package:lyrics_parser/lyrics_parser.dart';
+
+// TODO: support
+// 搜索多重匹配: /search/multimatch
+// 音乐是否可用: /check/music
+
 
 /// 网易云音乐搜索类型
 enum _CloudSearchType {
@@ -45,16 +53,28 @@ extension on _CloudSearchType {
 }
 
 class NetEasyApi implements MusicApi {
-  late final Dio _webDio = NetEasyCrypto.web.request;
+  late final Dio _webDio = buildNetEasyEasyWebApiRequest();
+  late final Dio _desktopDio = NetEasyCrypto.desktop.request;
+
+  NeteaseAnonymousInfo? anonymousLoginInfo;
 
   @override
   void configureDio(void Function(Dio dio) configure) {
     configure(_webDio);
+    configure(_desktopDio);
   }
 
-  // TODO: how to do with this?
-  // late final Dio _desktopDio = NetEasyCrypto.desktop.request;
   // late final Dio _linuxDio = NetEasyCrypto.linux.request;
+
+  @override
+  Future<void> init() async {
+    // TODO: 处理 cnIP
+    final deviceId = randomDeviceId();
+    final encodedDeviceId = encodeDeviceId(deviceId);
+    final data = {
+      'username': encodedDeviceId,
+    };
+  }
 
   Artist _buildArtist(Map<String, dynamic> data) {
     // alias
@@ -166,12 +186,42 @@ class NetEasyApi implements MusicApi {
     return ListResponsePack<SongDetail>.of(response: response, data: []);
   }
 
-  // Future<ResponsePack<SongUri>> songUri(List<String> ids, { BigInt? bitRate }) async {
-  //   final data = {
-  //     'ids': '[${ids.join(',')}]',
-  //     'br': bitRate ?? 999000,
-  //   };
-  // }
+  @override
+  Future<ResponsePack<SongUri>> songUri(String id, { BigInt? bitRate }) async {
+    final ids = [id]; // TODO: support multiple ids
+    final data = {
+      'ids': '[${ids.join(',')}]',
+      'level': 'standard', // TODO:
+      'encodeType': 'flac',
+    };
+    if (data['level'] == 'sky') {
+      data['immerseType'] = 'c51';
+    }
+    print(data);
+    final response = await _desktopDio.post('/api/song/enhance/player/url/v1', data: data);
+    print(response.data);
+    if (response.data is Map<String, dynamic>) {
+      final songsData = List<Map<String, dynamic>>.from(response.data['data']).firstOrNull;
+
+      final songUri = songsData?.let((data) {
+        final songId = data['id'].toString();
+        final url = data['url'].toString();
+        final br = data['br'].toString();
+        final size = data['size'].toString();
+        return SongUri(
+          id: songId,
+          url: url,
+          bitRate: BigInt.parse(br),
+          bitSize: BigInt.parse(size),
+          md5CheckSum: data['md5'].toString(),
+          fileType: data['type'].toString(),
+        );
+      });
+
+      return ResponsePack<SongUri>.of(response: response, data: songUri);
+    }
+    return ResponsePack<SongUri>.of(response: response, data: null);
+  }
 
   // TODO 检查这个接口的歌手-歌曲-专辑对应关系
   @override

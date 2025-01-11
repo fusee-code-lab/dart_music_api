@@ -1,7 +1,7 @@
 import 'package:encrypt/encrypt.dart';
 
 enum NetEasyCrypto {
-  /// 非 linux 桌面端 Api，前缀为 eapi
+  /// 非 linux 桌面端 Api，前缀为 eapi (iphone， android 也用?)
   desktop,
   /// web 端 Api，前缀为 weapi
   web,

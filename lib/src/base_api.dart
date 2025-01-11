@@ -25,6 +25,12 @@ abstract class MusicApi {
 
   void configureDio(void Function(Dio dio) configure);
 
+  /// 执行初始化操作
+  /// 网易云: 在这里执行匿名登录操作
+  Future<void> init() async {
+    // do nothing default
+  }
+
   // search
 
   /// 搜索单曲
@@ -38,7 +44,7 @@ abstract class MusicApi {
   // song
   Future<ResponsePack<SongDetail>> songDetails(String id);
   Future<ListResponsePack<SongDetail>> songsDetails(List<String> ids);
-  // Future<ResponsePack<SongUri>> songUri(String id, {BigInt? bitRate});
+  Future<ResponsePack<SongUri>> songUri(String id, {BigInt? bitRate});
 
   /// 获取歌曲播放地址
   String simpleSongUrl(String id);

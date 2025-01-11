@@ -15,6 +15,12 @@
 
 - [ ] 实现真正的 CombinedApi，支持融合搜索
 - [ ] 解决代码中的 TODO
+- [ ] 语义化错误处理
+- [ ] 处理网易云 cnIP
+- [ ] rename NetEasyApi to NetEaseApi
+- [ ] rename NetEasyCrypto.desktop to client
+- [ ] support web (cookie handle, set credentials to true on front)
+- [ ] 处理网易云 code 301 （需要登录）
 
 ## 开发
 
