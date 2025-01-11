@@ -2,9 +2,11 @@ import 'package:dart_music_api/music_api.dart';
 import 'package:dart_music_api/src/models/play_list_detail.dart';
 import 'package:dart_music_api/src/platforms/net_easy/models/anonymous_info.dart';
 import 'package:dart_music_api/src/platforms/net_easy/crypto/device_id.dart';
+import 'package:dart_music_api/src/platforms/net_easy/request/generate_ip.dart';
 import 'package:dart_music_api/src/platforms/net_easy/request/web_api_request.dart';
 import 'package:dart_music_api/src/response_pack.dart';
 import 'package:dart_music_api/src/models/artist_detail.dart';
+import 'package:dart_music_api/src/utils/http_header.dart';
 import 'package:dio/dio.dart';
 import 'package:lyrics_parser/lyrics_parser.dart';
 
@@ -55,25 +57,48 @@ extension on _CloudSearchType {
 class NetEasyApi implements MusicApi {
   late final Dio _webDio = buildNetEasyEasyWebApiRequest();
   late final Dio _desktopDio = NetEasyCrypto.desktop.request;
+  // late final Dio _linuxDio = NetEasyCrypto.linux.request;
 
   NeteaseAnonymousInfo? anonymousLoginInfo;
 
+  /// 配置 dio 实例， 在 [init] 之前调用
   @override
   void configureDio(void Function(Dio dio) configure) {
     configure(_webDio);
     configure(_desktopDio);
   }
 
-  // late final Dio _linuxDio = NetEasyCrypto.linux.request;
-
+  /// 初始化网易云 api，这里用于匿名登录，在该方法之前调用 [configureDio] 方法
   @override
   Future<void> init() async {
-    // TODO: 处理 cnIP
+    final ip = generateRandomChineseIP();
     final deviceId = randomDeviceId();
+
+    // set temp anonymous login info
+    anonymousLoginInfo = NeteaseAnonymousInfo(
+      ip: ip,
+      deviceId: deviceId,
+    );
+
     final encodedDeviceId = encodeDeviceId(deviceId);
     final data = {
       'username': encodedDeviceId,
     };
+    final response = await _webDio.post('/api/register/anonimous', data: data);
+    if (response.data is Map<String, dynamic>) {
+      final cookie = decodeCookieFromResponse(response);
+      final token = cookie['MUSIC_A'];
+      if (token != null) {
+        anonymousLoginInfo = anonymousLoginInfo!.copyWith(anonymousToken: token);
+      } else {
+        anonymousLoginInfo = null;
+        // TODO: show warning log
+      }
+      return;
+    }
+    // remove temp anonymous login info
+    anonymousLoginInfo = null;
+    throw Exception('cannot login anonymously in netease');
   }
 
   Artist _buildArtist(Map<String, dynamic> data) {

@@ -22,7 +22,7 @@ NeteaseAnonymousInfo _$NeteaseAnonymousInfoFromJson(Map<String, dynamic> json) {
 mixin _$NeteaseAnonymousInfo {
   String get ip => throw _privateConstructorUsedError;
   String get deviceId => throw _privateConstructorUsedError;
-  String get anonymousToken => throw _privateConstructorUsedError;
+  String? get anonymousToken => throw _privateConstructorUsedError;
 
   /// Serializes this NeteaseAnonymousInfo to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ abstract class $NeteaseAnonymousInfoCopyWith<$Res> {
           $Res Function(NeteaseAnonymousInfo) then) =
       _$NeteaseAnonymousInfoCopyWithImpl<$Res, NeteaseAnonymousInfo>;
   @useResult
-  $Res call({String ip, String deviceId, String anonymousToken});
+  $Res call({String ip, String deviceId, String? anonymousToken});
 }
 
 /// @nodoc
@@ -61,7 +61,7 @@ class _$NeteaseAnonymousInfoCopyWithImpl<$Res,
   $Res call({
     Object? ip = null,
     Object? deviceId = null,
-    Object? anonymousToken = null,
+    Object? anonymousToken = freezed,
   }) {
     return _then(_value.copyWith(
       ip: null == ip
@@ -72,10 +72,10 @@ class _$NeteaseAnonymousInfoCopyWithImpl<$Res,
           ? _value.deviceId
           : deviceId // ignore: cast_nullable_to_non_nullable
               as String,
-      anonymousToken: null == anonymousToken
+      anonymousToken: freezed == anonymousToken
           ? _value.anonymousToken
           : anonymousToken // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -88,7 +88,7 @@ abstract class _$$NeteaseAnonymousInfoImplCopyWith<$Res>
       __$$NeteaseAnonymousInfoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String ip, String deviceId, String anonymousToken});
+  $Res call({String ip, String deviceId, String? anonymousToken});
 }
 
 /// @nodoc
@@ -106,7 +106,7 @@ class __$$NeteaseAnonymousInfoImplCopyWithImpl<$Res>
   $Res call({
     Object? ip = null,
     Object? deviceId = null,
-    Object? anonymousToken = null,
+    Object? anonymousToken = freezed,
   }) {
     return _then(_$NeteaseAnonymousInfoImpl(
       ip: null == ip
@@ -117,10 +117,10 @@ class __$$NeteaseAnonymousInfoImplCopyWithImpl<$Res>
           ? _value.deviceId
           : deviceId // ignore: cast_nullable_to_non_nullable
               as String,
-      anonymousToken: null == anonymousToken
+      anonymousToken: freezed == anonymousToken
           ? _value.anonymousToken
           : anonymousToken // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -129,7 +129,7 @@ class __$$NeteaseAnonymousInfoImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$NeteaseAnonymousInfoImpl implements _NeteaseAnonymousInfo {
   const _$NeteaseAnonymousInfoImpl(
-      {required this.ip, required this.deviceId, required this.anonymousToken});
+      {required this.ip, required this.deviceId, this.anonymousToken});
 
   factory _$NeteaseAnonymousInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$NeteaseAnonymousInfoImplFromJson(json);
@@ -139,7 +139,7 @@ class _$NeteaseAnonymousInfoImpl implements _NeteaseAnonymousInfo {
   @override
   final String deviceId;
   @override
-  final String anonymousToken;
+  final String? anonymousToken;
 
   @override
   String toString() {
@@ -184,7 +184,7 @@ abstract class _NeteaseAnonymousInfo implements NeteaseAnonymousInfo {
   const factory _NeteaseAnonymousInfo(
       {required final String ip,
       required final String deviceId,
-      required final String anonymousToken}) = _$NeteaseAnonymousInfoImpl;
+      final String? anonymousToken}) = _$NeteaseAnonymousInfoImpl;
 
   factory _NeteaseAnonymousInfo.fromJson(Map<String, dynamic> json) =
       _$NeteaseAnonymousInfoImpl.fromJson;
@@ -194,7 +194,7 @@ abstract class _NeteaseAnonymousInfo implements NeteaseAnonymousInfo {
   @override
   String get deviceId;
   @override
-  String get anonymousToken;
+  String? get anonymousToken;
 
   /// Create a copy of NeteaseAnonymousInfo
   /// with the given fields replaced by the non-null parameter values.

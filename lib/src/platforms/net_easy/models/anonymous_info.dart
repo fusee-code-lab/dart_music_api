@@ -9,7 +9,7 @@ class NeteaseAnonymousInfo with _$NeteaseAnonymousInfo {
   const factory NeteaseAnonymousInfo({
     required String ip,
     required String deviceId,
-    required String anonymousToken,
+    String? anonymousToken,
   }) = _NeteaseAnonymousInfo;
 
   factory NeteaseAnonymousInfo.fromJson(Map<String, dynamic> json) =>

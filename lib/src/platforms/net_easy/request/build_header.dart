@@ -44,19 +44,11 @@ String _buildWNMCID() {
   return '$random.${DateTime.now().millisecondsSinceEpoch}.01.0';
 }
 
+@Deprecated("use utils")
 String _buildCookieValue(Map<String, dynamic> cookie) {
   return cookie.entries.where((e) => e.value != null).map((e) {
     return '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}';
   }).join('; ');
-}
-
-Map<String, dynamic> _decodeCookie(RequestOptions options) {
-  final String cookie = options.headers[HttpHeaders.cookieHeader] ?? '';
-  final cookieMap = cookie.split('; ').map((e) {
-    final kv = e.split('=');
-    return MapEntry(kv.first, kv.last);
-  }).toList();
-  return Map<String, dynamic>.fromEntries(cookieMap);
 }
 
 extension NeteaseHttpBuilder on NetEasyApi {
@@ -68,7 +60,7 @@ extension NeteaseHttpBuilder on NetEasyApi {
         (_osMap[baseCookie['os']] ?? _osMap['iphone'])!;
     final cookoie = {
       ...baseCookie,
-      '__remeber_me': 'true',
+      '__remember_me': 'true',
       'ntes_kaola_ad': '1',
       '_ntes_nuid': baseCookie['_ntes_nuid'] ?? ntesNuid,
       '_ntes_nnid': baseCookie['_ntes_nnid'] ?? ntesNnid,
@@ -81,7 +73,10 @@ extension NeteaseHttpBuilder on NetEasyApi {
       'appver': baseCookie['appver'] ?? os['appver'],
     };
 
-    if (baseCookie.containsKey('MUSIC_U')) {
+    // TODO: 处理登录的情况, 如果需要登录，则不需要该参数？
+    cookoie['NMTID'] = randomKey(16);
+
+    if (!baseCookie.containsKey('MUSIC_U')) {
       // 游客
       cookoie['MUSIC_A'] =
           baseCookie['MUSIC_A'] ?? anonymousLoginInfo?.anonymousToken;
@@ -94,7 +89,7 @@ extension NeteaseHttpBuilder on NetEasyApi {
     required RequestOptions options,
     required NetEasyCrypto crypto,
   }) {
-    final baseCookie = _decodeCookie(options);
+    final baseCookie = decodeCookie(options);
     final cookie = buildCommonCookie(baseCookie);
 
     var ipHeaders = <String, String>{};
@@ -143,14 +138,14 @@ extension NeteaseHttpBuilder on NetEasyApi {
             crypto.chooseUserAgent(preferredType: UserAgentType.iphone);
         headers[HttpHeaders.userAgentHeader] = userAgent;
 
+        headers.removeWhere((key, value) => value == null);
         return headers;
       case NetEasyCrypto.web:
         final headers = options.headers..addAll(ipHeaders);
-        headers[HttpHeaders.cookieHeader] = _buildCookieValue(cookie);
+        headers[HttpHeaders.cookieHeader] = buildCookieValue(cookie);
         headers[HttpHeaders.userAgentHeader] = crypto.chooseUserAgent();
         headers[HttpHeaders.refererHeader] = netEasyBaseUrl;
         return headers;
-
       case NetEasyCrypto.linux:
         throw UnimplementedError();
     }

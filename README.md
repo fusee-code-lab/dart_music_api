@@ -16,7 +16,7 @@
 - [ ] 实现真正的 CombinedApi，支持融合搜索
 - [ ] 解决代码中的 TODO
 - [ ] 语义化错误处理
-- [ ] 处理网易云 cnIP
+- [ ] logs
 - [ ] rename NetEasyApi to NetEaseApi
 - [ ] rename NetEasyCrypto.desktop to client
 - [ ] support web (cookie handle, set credentials to true on front)
@@ -76,6 +76,14 @@ void main() {
 ```
 
 使用 `MusicPlatformApi.combinedApi` 来获取所有平台的聚合 Api 实例。
+
+### 配置接口
+
+- 调用 `MusicApi.configureDio` 来配置 dio 实例
+- 调用 `MusicApi.init` 来初始化 Api
+
+> 调用 `MusicApi.init` 方法不是必须的，这里处理了例如匿名登录的逻辑，如果要调用该 API，需要在 `MusicApi.configureDio` 之后调用。
+
 
 ### 分页
 对于可分页的 Api, 将返回 `ResultCursor` 类型来支持分页操作，以下是 `ResultCursor` 的用法。

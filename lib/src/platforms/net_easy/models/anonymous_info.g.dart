@@ -11,7 +11,7 @@ _$NeteaseAnonymousInfoImpl _$$NeteaseAnonymousInfoImplFromJson(
     _$NeteaseAnonymousInfoImpl(
       ip: json['ip'] as String,
       deviceId: json['deviceId'] as String,
-      anonymousToken: json['anonymousToken'] as String,
+      anonymousToken: json['anonymousToken'] as String?,
     );
 
 Map<String, dynamic> _$$NeteaseAnonymousInfoImplToJson(

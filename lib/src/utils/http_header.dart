@@ -1,4 +1,7 @@
+import 'dart:io';
 import 'dart:math';
+
+import 'package:dio/dio.dart';
 
 const userAgentList = [
   'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1',
@@ -41,4 +44,41 @@ String chooseUserAgent(UserAgentType? ua) {
   } else {
     return userAgentList[(random.nextDouble() * (userAgentList.length - 1)).floor()];
   }
+}
+
+String buildCookieValue(Map<String, dynamic> cookie) {
+  return cookie.entries.map((e) {
+    return '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value ?? '')}';
+  }).join('; ');
+}
+
+Map<String, dynamic> decodeCookie(RequestOptions options) {
+  final String cookie = options.headers[HttpHeaders.cookieHeader] ?? '';
+  if (cookie.isEmpty) {
+    return {};
+  }
+
+  return decodeCookieFromString(cookie);
+}
+
+Map<String, dynamic> decodeCookieFromResponse(Response response) {
+  final List<String> cookie = response.headers[HttpHeaders.setCookieHeader] ?? [];
+  if (cookie.isEmpty) {
+    return {};
+  }
+
+  final cookieObj = <String, dynamic>{};
+  for (final c in cookie) {
+    final kv = c.split('; ').first.split('=');
+    cookieObj[kv.first] = kv.last;
+  }
+  return cookieObj;
+}
+
+Map<String, dynamic> decodeCookieFromString(String cookie) {
+  final cookieMap = cookie.split('; ').map((e) {
+    final kv = e.split('=');
+    return MapEntry(kv.first, kv.last);
+  }).toList();
+  return Map<String, dynamic>.fromEntries(cookieMap);
 }
