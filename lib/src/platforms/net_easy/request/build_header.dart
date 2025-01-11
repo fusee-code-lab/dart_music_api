@@ -132,7 +132,7 @@ extension NeteaseHttpBuilder on NetEasyApi {
         }
 
         // using new cookie
-        headers[HttpHeaders.cookieHeader] = _buildCookieValue(headers);
+        headers[HttpHeaders.cookieHeader] = buildCookieValue(headers);
 
         final userAgent =
             crypto.chooseUserAgent(preferredType: UserAgentType.iphone);
@@ -145,6 +145,7 @@ extension NeteaseHttpBuilder on NetEasyApi {
         headers[HttpHeaders.cookieHeader] = buildCookieValue(cookie);
         headers[HttpHeaders.userAgentHeader] = crypto.chooseUserAgent();
         headers[HttpHeaders.refererHeader] = netEasyBaseUrl;
+        headers.removeWhere((key, value) => value == null);
         return headers;
       case NetEasyCrypto.linux:
         throw UnimplementedError();

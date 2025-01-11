@@ -6,8 +6,11 @@ import 'package:dio/dio.dart';
 extension NetEasyRequest on NetEasyCrypto {
   Dio get request {
     switch (this) {
-      case NetEasyCrypto.desktop: return buildNetEasyEasyDesktopApiRequest();
       case NetEasyCrypto.linux: return buildNetEasyEasyLinuxApiRequest();
+
+
+      case NetEasyCrypto.desktop:
+        throw UnsupportedError('Please use NeteaseNetworkDesktop.buildNetEasyEasyDesktopApiRequest instead');
 
       case NetEasyCrypto.web:
         throw UnsupportedError('Please use NeteaseNetworkWeb.buildNetEasyEasyWebApiRequest instead');

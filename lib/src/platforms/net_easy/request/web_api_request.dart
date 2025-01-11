@@ -22,7 +22,10 @@ extension NeteaseNetworkWeb on NetEasyApi {
 
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) {
-        final header = this.buildHeader(options: options, crypto: NetEasyCrypto.web);
+        final header = this.buildHeader(
+          options: options,
+          crypto: netEasyCrypto,
+        );
 
         final String cookies = header[HttpHeaders.cookieHeader] ?? '';
         final Map<String, dynamic> data = options.data ?? {};

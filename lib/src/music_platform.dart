@@ -9,6 +9,8 @@ enum MusicPlatform {
 }
 
 extension MusicPlatformApi on MusicPlatform {
+  // TODO: 设计 preferredDoEncrypt 参数
+
   MusicApi get api {
     switch (this) {
       case MusicPlatform.netEasy: return NetEasyApi();

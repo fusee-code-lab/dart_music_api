@@ -8,7 +8,6 @@ final encoder = JsonEncoder.withIndent('  ');
 void main() async {
   final api = MusicPlatform.netEasy.api;
   await api.init();
-  exit(0);
 
   print("获取歌曲 url");
   final songUri = await api.songUri("523250334");

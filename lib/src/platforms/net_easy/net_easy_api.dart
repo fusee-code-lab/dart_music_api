@@ -2,6 +2,7 @@ import 'package:dart_music_api/music_api.dart';
 import 'package:dart_music_api/src/models/play_list_detail.dart';
 import 'package:dart_music_api/src/platforms/net_easy/models/anonymous_info.dart';
 import 'package:dart_music_api/src/platforms/net_easy/crypto/device_id.dart';
+import 'package:dart_music_api/src/platforms/net_easy/request/desktop_api_request.dart';
 import 'package:dart_music_api/src/platforms/net_easy/request/generate_ip.dart';
 import 'package:dart_music_api/src/platforms/net_easy/request/web_api_request.dart';
 import 'package:dart_music_api/src/response_pack.dart';
@@ -13,7 +14,6 @@ import 'package:lyrics_parser/lyrics_parser.dart';
 // TODO: support
 // 搜索多重匹配: /search/multimatch
 // 音乐是否可用: /check/music
-
 
 /// 网易云音乐搜索类型
 enum _CloudSearchType {
@@ -56,10 +56,18 @@ extension on _CloudSearchType {
 
 class NetEasyApi implements MusicApi {
   late final Dio _webDio = buildNetEasyEasyWebApiRequest();
-  late final Dio _desktopDio = NetEasyCrypto.desktop.request;
+  late final Dio _desktopDio =
+      buildNetEasyEasyDesktopApiRequest(doEncrypt: _preferredDoEncrypt);
   // late final Dio _linuxDio = NetEasyCrypto.linux.request;
 
+  final bool _preferredDoEncrypt;
   NeteaseAnonymousInfo? anonymousLoginInfo;
+
+  /// 构造网易云音乐 api
+  ///
+  /// [preferredDoEncrypt] 是否首选加密请求数据，默认为 true，对应 [_desktopDio] 是否加密请求数据
+  NetEasyApi({bool preferredDoEncrypt = true})
+      : _preferredDoEncrypt = preferredDoEncrypt;
 
   /// 配置 dio 实例， 在 [init] 之前调用
   @override
@@ -89,10 +97,12 @@ class NetEasyApi implements MusicApi {
       final cookie = decodeCookieFromResponse(response);
       final token = cookie['MUSIC_A'];
       if (token != null) {
-        anonymousLoginInfo = anonymousLoginInfo!.copyWith(anonymousToken: token);
+        anonymousLoginInfo =
+            anonymousLoginInfo!.copyWith(anonymousToken: token);
       } else {
         anonymousLoginInfo = null;
         // TODO: show warning log
+        print('Warnings: cannot login anonymously in netease');
       }
       return;
     }
@@ -212,7 +222,7 @@ class NetEasyApi implements MusicApi {
   }
 
   @override
-  Future<ResponsePack<SongUri>> songUri(String id, { BigInt? bitRate }) async {
+  Future<ResponsePack<SongUri>> songUri(String id, {BigInt? bitRate}) async {
     final ids = [id]; // TODO: support multiple ids
     final data = {
       'ids': '[${ids.join(',')}]',
@@ -222,11 +232,15 @@ class NetEasyApi implements MusicApi {
     if (data['level'] == 'sky') {
       data['immerseType'] = 'c51';
     }
-    print(data);
-    final response = await _desktopDio.post('/api/song/enhance/player/url/v1', data: data);
+
+    final response = await _desktopDio.post(
+      '/api/song/enhance/player/url/v1',
+      data: data,
+    );
     print(response.data);
     if (response.data is Map<String, dynamic>) {
-      final songsData = List<Map<String, dynamic>>.from(response.data['data']).firstOrNull;
+      final songsData =
+          List<Map<String, dynamic>>.from(response.data['data']).firstOrNull;
 
       final songUri = songsData?.let((data) {
         final songId = data['id'].toString();
