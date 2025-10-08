@@ -1,2 +1,3 @@
 *.freezed.dart linguist-generated=true
 *.g.dart linguist-generated=true
+lib/src/platforms/net_easy/crypto/device_id.dart linguist-vendored
